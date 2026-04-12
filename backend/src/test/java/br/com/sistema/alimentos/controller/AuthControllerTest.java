@@ -2,7 +2,6 @@ package br.com.sistema.alimentos.controller;
 
 import br.com.sistema.alimentos.dtos.request.LoginRequest;
 import br.com.sistema.alimentos.dtos.response.LoginResponse;
-import br.com.sistema.alimentos.enums.PlanoTipo;
 import br.com.sistema.alimentos.enums.UsuarioTipo;
 import br.com.sistema.alimentos.service.AuthService;
 import br.com.sistema.alimentos.service.JwtService;

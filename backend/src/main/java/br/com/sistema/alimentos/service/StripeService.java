@@ -119,8 +119,6 @@ public class StripeService {
 
         } catch (com.stripe.exception.SignatureVerificationException e) {
             throw new IllegalArgumentException("Assinatura do webhook inválida", e);
-        } catch (StripeException e) {
-            throw new RuntimeException("Erro ao processar webhook: " + e.getMessage(), e);
         }
     }
 
