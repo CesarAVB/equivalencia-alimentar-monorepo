@@ -1,0 +1,82 @@
+# ============================================
+# BUILD & COMPILED
+# ============================================
+.github/agents/
+.github/copilot-instructions.md
+.llm
+target/
+dist/
+build/
+*.class
+*.jar
+*.war
+
+# ============================================
+# BACKEND (Spring Boot)
+# ============================================
+# Logs
+*.log
+logs/
+
+# Environment-specific — NÃO versionar
+backend/src/main/resources/application-local.properties
+backend/src/main/resources/application-dev.properties
+
+# IDE
+.idea/
+*.iml
+*.iws
+.classpath
+.project
+.settings/
+
+# ============================================
+# FRONTEND (Angular)
+# ============================================
+frontend/.angular/
+frontend/node_modules/
+frontend/coverage/
+frontend/dist/
+
+# Environment-specific
+frontend/src/environments/environment.local.ts
+frontend/src/environments/environment.development.ts
+
+# IDE para frontend
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# ============================================
+# IDE (Ambos)
+# ============================================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ============================================
+# CLAUDE CODE & DOCUMENTATION
+# ============================================
+CLAUDE.md
+.claude/
+
+# ============================================
+# SISTEMA OPERACIONAL
+# ============================================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# ============================================
+# MONOREPO ESPECÍFICO
+# ============================================
+# Se tiver docker-compose, etc
+.env.local
+.env.*.local

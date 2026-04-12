@@ -1,0 +1,95 @@
+<div class="home-container">
+
+  <!-- Hero Section -->
+  <section class="hero">
+
+    <!-- Coluna esquerda: texto -->
+    <div class="hero-left">
+      <span class="hero-eyebrow">
+        <i class="fas fa-heartbeat"></i>Guia alimentar para auxiliar em sua dieta
+      </span>
+      <h1 class="hero-title">
+        Lista de<br>
+        <span class="hero-title-accent">Substituição</span>
+      </h1>
+      <p class="hero-subtitle">
+        Escolha um alimento e descubra opções igualmente nutritivas para substituí-lo,
+        sempre dentro do seu plano alimentar.
+      </p>
+      <div class="hero-stats">
+        <div class="stat">
+          <i class="fas fa-exchange-alt"></i>
+          <span>Substituições<br>Calóricas</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <i class="fas fa-leaf"></i>
+          <span>Grupos<br>Alimentares</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <i class="fas fa-fire-alt"></i>
+          <span>Controle<br>de Calorias</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Coluna direita: imagem -->
+    <div class="hero-right">
+      <div class="hero-img-wrap">
+        <img src="images/logo.png" alt="Lista de Substituição" class="logo-img">
+      </div>
+    </div>
+
+  </section>
+
+  <!-- Main Tool -->
+  <section class="main-content">
+    <div class="row g-4">
+      <div class="col-lg-5">
+        <app-equivalencia-form (resultado)="onResultado($event)"></app-equivalencia-form>
+      </div>
+      <div class="col-lg-7">
+        <app-resultado [dados]="resultado"></app-resultado>
+      </div>
+    </div>
+  </section>
+
+  <!-- Feature Cards -->
+  <section class="features" id="sobre">
+    <div class="features-header">
+      <h2 class="features-title">Por que usar?</h2>
+      <p class="features-subtitle">Recursos pensados para facilitar a sua rotina alimentar</p>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-bullseye"></i>
+          </div>
+          <h5>Equivalência calórica precisa</h5>
+          <p>Encontre substitutos com exatamente as mesmas calorias do alimento original, sem achismos ou aproximações.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="feature-card feature-card--center">
+          <div class="feature-icon">
+            <i class="fas fa-clipboard-list"></i>
+          </div>
+          <h5>Respeita o seu plano</h5>
+          <p>Baseado na tabela TACO, os dados são confiáveis e alinhados com o que seu nutricionista prescreveu.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-file-csv"></i>
+          </div>
+          <h5>Exportação fácil</h5>
+          <p>Baixe a lista de substituições em CSV com um clique e compartilhe com seu nutricionista ou guarde para consulta.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>

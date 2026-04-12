@@ -1,0 +1,262 @@
+.site-header {
+  background:
+    radial-gradient(ellipse 320px 140px at 8% 10%, rgba(42, 122, 154, 0.16), transparent 72%),
+    radial-gradient(ellipse 300px 140px at 80% 90%, rgba(180, 210, 26, 0.14), transparent 72%),
+    linear-gradient(105deg, #f7fcfa 0%, #e7f5ef 45%, #f3fbf7 100%);
+  border-bottom: 2px solid rgba(26, 95, 122, 0.18);
+  box-shadow: 0 8px 26px rgba(26, 95, 122, 0.09);
+  backdrop-filter: blur(8px);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  padding: 10px 0;
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    min-height: 64px;
+  }
+
+  .brand-cluster {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+  }
+
+  // --- Brand ---
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0;
+    text-decoration: none;
+    flex-shrink: 0;
+    padding: 0;
+    border-radius: 0;
+    background: transparent;
+    border: none;
+    transition: transform 0.2s ease;
+
+    &:hover {
+      transform: translateY(-1px);
+    }
+
+    .brand-logo {
+      height: 46px;
+      width: auto;
+      display: block;
+      object-fit: contain;
+    }
+  }
+
+  // --- Nav ---
+  .header-nav {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex: 1;
+    justify-content: center;
+  }
+
+  .nav-link-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--clr-text-muted);
+    text-decoration: none;
+    transition: background-color 0.2s ease, color 0.2s ease;
+
+    i { font-size: 13px; }
+
+    &:hover {
+      background: rgba(26, 95, 122, 0.07);
+      color: var(--clr-primary);
+    }
+
+    &.active {
+      background: rgba(26, 95, 122, 0.12);
+      color: var(--clr-primary);
+    }
+  }
+
+  // --- Right ---
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  // --- Badge de Plano ---
+  .plano-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    font-weight: 800;
+    padding: 5px 11px;
+    border-radius: 999px;
+    text-decoration: none;
+    white-space: nowrap;
+    letter-spacing: 0.4px;
+    transition: transform 0.2s, box-shadow 0.2s;
+
+    &:hover { transform: translateY(-1px); }
+
+    &--free  { background: #f3f4f6; color: #6b7280; border: 1px solid #e5e7eb; }
+    &--basic { background: #dbeafe; color: #1d4ed8; border: 1px solid #bfdbfe; }
+    &--pro   {
+      background: linear-gradient(135deg, #fef3c7, #fde68a);
+      color: #92400e;
+      border: 1px solid #fcd34d;
+      box-shadow: 0 2px 8px rgba(251, 191, 36, 0.3);
+    }
+  }
+
+  // --- Sessão do usuário ---
+  .account-panel {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.92);
+    border: 1px solid rgba(26, 95, 122, 0.14);
+    border-radius: 999px;
+    padding: 5px;
+    box-shadow: 0 5px 16px rgba(26, 95, 122, 0.11);
+  }
+
+  .user-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #ffffff;
+    border: 1px solid rgba(26, 95, 122, 0.08);
+    border-radius: 999px;
+    padding: 4px 10px 4px 4px;
+    max-width: 270px;
+  }
+
+  .user-avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--clr-primary) 0%, var(--clr-primary-light) 100%);
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    letter-spacing: 0.5px;
+    box-shadow: 0 0 0 2px rgba(42, 122, 154, 0.12);
+  }
+
+  .user-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  .user-nome {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--clr-text);
+    line-height: 1.1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 180px;
+  }
+
+  .user-email {
+    font-size: 10.8px;
+    color: var(--clr-text-muted);
+    line-height: 1.1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 180px;
+  }
+
+  // --- Logout ---
+  .logout-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #f3faf7;
+    border: 1px solid rgba(26, 95, 122, 0.14);
+    color: var(--clr-text-muted);
+    padding: 7px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+
+    i { font-size: 13px; }
+
+    &:hover {
+      background: #fff1f1;
+      border-color: #f87171;
+      color: #dc2626;
+      transform: translateY(-1px);
+    }
+  }
+
+  .session-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #166534;
+    background: #ecfdf3;
+    border: 1px solid #bbf7d0;
+    border-radius: 999px;
+    padding: 6px 10px;
+    white-space: nowrap;
+
+    i {
+      font-size: 8px;
+      color: #16a34a;
+    }
+  }
+
+  .brand:focus-visible,
+  .logout-btn:focus-visible {
+    outline: 3px solid rgba(26, 95, 122, 0.24);
+    outline-offset: 2px;
+  }
+
+  @media (max-width: 860px) {
+    .header-inner { gap: 10px; }
+    .brand-cluster { gap: 6px; }
+    .brand .brand-logo { height: 40px; }
+    .user-email { display: none; }
+    .session-badge { display: none; }
+    .account-panel { gap: 6px; }
+    .nav-link-item span { display: none; }
+    .nav-link-item { padding: 7px 10px; }
+    .plano-badge { display: none; }
+  }
+
+  @media (max-width: 560px) {
+    .header-right { gap: 8px; }
+    .brand-cluster { gap: 6px; }
+    .brand { padding: 0; }
+    .user-nome { max-width: 92px; }
+    .logout-label { display: none; }
+    .user-chip { padding: 4px 6px 4px 4px; max-width: 126px; }
+    .logout-btn { padding: 7px 9px; }
+  }
+}

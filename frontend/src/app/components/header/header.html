@@ -1,0 +1,97 @@
+<header class="site-header">
+  <div class="container-fluid">
+    <div class="header-inner">
+
+      <!-- Brand -->
+      <div class="brand-cluster">
+        <a class="brand" routerLink="/home">
+          <img src="images/logo-reduzido.png" alt="Lista de Substituição - André Reis" class="brand-logo">
+        </a>
+      </div>
+
+      <!-- Navigation -->
+      @if (usuario$ | async; as usuario) {
+        <nav class="header-nav">
+          <a routerLink="/home" routerLinkActive="active" class="nav-link-item">
+            <i class="fas fa-home"></i>
+            <span>Início</span>
+          </a>
+
+          @if (isAdminOrNutricionista) {
+            <a routerLink="/admin/dashboard" routerLinkActive="active" class="nav-link-item">
+              <i class="fas fa-tachometer-alt"></i>
+              <span>Painel</span>
+            </a>
+            <a routerLink="/admin/alimentos" routerLinkActive="active" class="nav-link-item">
+              <i class="fas fa-apple-alt"></i>
+              <span>Alimentos</span>
+            </a>
+            <a routerLink="/admin/equivalencias" routerLinkActive="active" class="nav-link-item">
+              <i class="fas fa-exchange-alt"></i>
+              <span>Equivalências</span>
+            </a>
+          }
+
+          @if (isAdmin) {
+            <a routerLink="/admin/usuarios" routerLinkActive="active" class="nav-link-item">
+              <i class="fas fa-users"></i>
+              <span>Usuários</span>
+            </a>
+          }
+
+          <a routerLink="/planos" routerLinkActive="active" class="nav-link-item">
+            <i class="fas fa-layer-group"></i>
+            <span>Planos</span>
+          </a>
+        </nav>
+
+        <!-- Right side -->
+        <div class="header-right">
+          <div class="account-panel">
+
+            <!-- Badge do plano -->
+            <a routerLink="/planos" class="plano-badge" [class]="'plano-badge--' + (usuario.plano ?? 'free' | lowercase)"
+               title="Ver planos">
+              <i class="fas fa-bolt"></i>
+              {{ usuario.plano ?? 'FREE' }}
+            </a>
+
+            <!-- Aviso de trial -->
+            @if (usuario.plano === 'trial') {
+              @if (!isTrialExpired(usuario)) {
+                <a class="trial-badge" routerLink="/planos" title="Seu trial expira em breve">
+                  Seu trial expira em {{ diasRestantes(usuario) }} dia{{ diasRestantes(usuario) === 1 ? '' : 's' }}
+                </a>
+              } @else {
+                <a class="trial-expired" routerLink="/planos" title="Trial expirado — renovar">
+                  Trial expirado — ver planos
+                </a>
+              }
+            }
+
+            <div class="user-chip" [title]="usuario.email">
+              <span class="user-avatar">
+                {{ iniciais(usuario.nome) }}
+              </span>
+              <div class="user-meta">
+                <span class="user-nome">{{ usuario.nome }}</span>
+                <span class="user-email">{{ usuario.tipo }}</span>
+              </div>
+            </div>
+
+            <span class="session-badge" aria-label="Sessão ativa">
+              <i class="fas fa-circle"></i>
+              Online
+            </span>
+
+            <button class="logout-btn" (click)="logout()" title="Sair da conta">
+              <i class="fas fa-sign-out-alt"></i>
+              <span class="logout-label">Sair</span>
+            </button>
+          </div>
+        </div>
+      }
+
+    </div>
+  </div>
+</header>

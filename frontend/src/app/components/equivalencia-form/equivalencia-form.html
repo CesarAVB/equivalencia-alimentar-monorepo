@@ -1,0 +1,125 @@
+<div class="form-card">
+
+  <!-- Card Header -->
+  <div class="card-head">
+    <div class="card-head-icon">
+      <i class="fas fa-exchange-alt"></i>
+    </div>
+    <div>
+      <h5 class="card-head-title">Buscar Equivalências</h5>
+      <p class="card-head-subtitle">Selecione um alimento para ver suas substituições</p>
+    </div>
+  </div>
+
+  <!-- Card Body -->
+  <div class="card-body-inner">
+
+    <!-- Feedback -->
+    @if (mensagem) {
+      <div class="feedback-alert"
+        [class.feedback-success]="tipoMensagem === 'success'"
+        [class.feedback-error]="tipoMensagem === 'error'"
+        [class.feedback-info]="tipoMensagem === 'info'">
+        <i [ngClass]="tipoMensagem === 'success' ? 'fas fa-check-circle' : tipoMensagem === 'error' ? 'fas fa-exclamation-circle' : 'fas fa-info-circle'"></i>
+        <span>{{ mensagem }}</span>
+        <button class="feedback-close" (click)="mensagem = ''" aria-label="Fechar">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+    }
+
+    <!-- Loading inicial -->
+    @if (carregandoAlimentos) {
+      <div class="text-center py-3">
+        <span class="spinner-border spinner-border-sm text-success me-2" role="status"></span>
+        <small class="text-muted">Carregando alimentos...</small>
+      </div>
+    }
+
+    <!-- Form -->
+    <form [formGroup]="form">
+
+      <!-- Selecionar Grupo -->
+      <div class="field-group">
+        <label for="grupo" class="field-label">
+          <i class="fas fa-layer-group"></i>Grupo Alimentar
+        </label>
+        <div class="field-input-wrap">
+          <span class="field-prefix"><i class="fas fa-folder"></i></span>
+          <select
+            class="field-input"
+            id="grupo"
+            formControlName="grupo"
+            [class.invalid]="form.get('grupo')?.invalid && form.get('grupo')?.touched">
+            <option value="" disabled>-- Selecione um grupo --</option>
+            @for (grupo of grupos; track grupo) {
+              <option [value]="grupo">{{ grupo }}</option>
+            }
+          </select>
+        </div>
+        @if (form.get('grupo')?.invalid && form.get('grupo')?.touched) {
+          <span class="field-error">
+            <i class="fas fa-exclamation-triangle"></i>Grupo é obrigatório
+          </span>
+        }
+      </div>
+
+      <!-- Selecionar Alimento -->
+      <div class="field-group">
+        <label for="alimentoId" class="field-label">
+          <i class="fas fa-leaf"></i>Alimento
+        </label>
+        <div class="field-input-wrap">
+          <span class="field-prefix"><i class="fas fa-apple-alt"></i></span>
+          <select
+            class="field-input"
+            id="alimentoId"
+            formControlName="alimentoId"
+            [class.invalid]="form.get('alimentoId')?.invalid && form.get('alimentoId')?.touched">
+            <option value="" disabled>
+              {{ alimentos.length === 0 ? '-- Selecione um grupo primeiro --' : '-- Selecione um alimento --' }}
+            </option>
+            @for (alimento of alimentos; track alimento.id) {
+              <option [value]="alimento.id">{{ alimento.descricao }} ({{ alimento.energiaKcal }} kcal)</option>
+            }
+          </select>
+        </div>
+        @if (form.get('alimentoId')?.invalid && form.get('alimentoId')?.touched) {
+          <span class="field-error">
+            <i class="fas fa-exclamation-triangle"></i>Alimento é obrigatório
+          </span>
+        }
+      </div>
+
+      <!-- Loading equivalencias -->
+      @if (carregando) {
+        <div class="text-center py-2">
+          <span class="spinner-border spinner-border-sm text-success me-2" role="status"></span>
+          <small class="text-muted">Buscando equivalências...</small>
+        </div>
+      }
+
+      <!-- Quantidade em gramas + Ações -->
+      <div class="field-group">
+        <label for="quantidadeGramas" class="field-label">
+          <i class="fas fa-weight-hanging"></i>Quantidade (g)
+        </label>
+        <div class="field-input-wrap">
+          <input type="number" id="quantidadeGramas" class="field-input" formControlName="quantidadeGramas" placeholder="Ex: 200" min="1">
+          <span class="field-suffix">g</span>
+        </div>
+      </div>
+
+      <div class="form-actions d-flex gap-2">
+        <button type="button" class="btn btn-primary" (click)="calcular()">
+          <i class="fas fa-calculator"></i>Calcular
+        </button>
+        <button type="button" class="btn-reset" (click)="limpar()">
+          <i class="fas fa-redo"></i>Limpar
+        </button>
+      </div>
+
+    </form>
+  </div>
+
+</div>
