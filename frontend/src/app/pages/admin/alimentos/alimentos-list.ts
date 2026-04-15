@@ -86,6 +86,49 @@ export class AlimentosListComponent implements OnInit {
     return Array.from({ length: this.totalPages }, (_, i) => i);
   }
 
+  get paginationItems(): Array<number | 'ellipsis'> {
+    if (this.totalPages <= 7) {
+      return this.paginas;
+    }
+
+    const pages = new Set<number>([
+      0,
+      1,
+      this.totalPages - 2,
+      this.totalPages - 1,
+      this.currentPage - 1,
+      this.currentPage,
+      this.currentPage + 1
+    ]);
+
+    const validPages = Array.from(pages)
+      .filter((page) => page >= 0 && page < this.totalPages)
+      .sort((a, b) => a - b);
+
+    const items: Array<number | 'ellipsis'> = [];
+
+    validPages.forEach((page, index) => {
+      const previousPage = validPages[index - 1];
+
+      if (index > 0 && previousPage !== undefined && page - previousPage > 1) {
+        items.push('ellipsis');
+      }
+
+      items.push(page);
+    });
+
+    return items;
+  }
+
+  get paginaInicialItem(): number {
+    if (this.totalElements === 0) return 0;
+    return this.currentPage * this.pageSize + 1;
+  }
+
+  get paginaFinalItem(): number {
+    return Math.min((this.currentPage + 1) * this.pageSize, this.totalElements);
+  }
+
   abrirModalCriar(): void {
     this.modoEdicao = false;
     this.alimentoEmEdicao = null;
@@ -150,7 +193,7 @@ export class AlimentosListComponent implements OnInit {
   }
 
   remover(alimento: Alimento): void {
-    if (!confirm(`Remover "${alimento.descricao}"? Esta ação não pode ser desfeita.`)) return;
+    if (!confirm(`Remover "${alimento.descricao}"? Esta acao nao pode ser desfeita.`)) return;
 
     this.alimentoService.remover(alimento.id).subscribe({
       next: () => {
@@ -167,8 +210,8 @@ export class AlimentosListComponent implements OnInit {
     const mapa: Record<string, string> = {
       'Frutas': 'badge-frutas',
       'Carboidratos': 'badge-carbo',
-      'Proteína': 'badge-prot',
-      'Laticíneos': 'badge-latic',
+      'Prote\u00edna': 'badge-prot',
+      'Latic\u00edneos': 'badge-latic',
       'Gordura Vegetal': 'badge-gord'
     };
     return mapa[grupo] ?? 'badge-secondary';

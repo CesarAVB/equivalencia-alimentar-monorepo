@@ -50,8 +50,25 @@
 
   @if (!carregando) {
 
-    <!-- Desktop Table -->
+    <!-- Desktop Table Card (with integrated pagination) -->
     <div class="table-card d-none d-md-block">
+
+      <!-- Table Card Header -->
+      <div class="table-card-header">
+        <span class="table-count-info">
+          @if (filtroTexto || filtroGrupo) {
+            <i class="fas fa-filter"></i>{{ totalElements }} resultado(s) encontrado(s)
+          } @else {
+            <i class="fas fa-list-ul"></i>{{ totalElements }} alimento(s) cadastrado(s)
+          }
+        </span>
+        @if (filtroGrupo) {
+          <span class="filter-chip">
+            <i class="fas fa-tag"></i>{{ filtroGrupo }}
+          </span>
+        }
+      </div>
+
       <div class="table-responsive">
         <table class="admin-table">
           <thead>
@@ -97,6 +114,38 @@
           </tbody>
         </table>
       </div>
+
+      <!-- Integrated Pagination Footer -->
+      @if (totalPages > 1) {
+        <div class="table-card-footer">
+          <small class="pagination-info">
+            Exibindo {{ paginaInicialItem }}–{{ paginaFinalItem }} de {{ totalElements }} itens
+          </small>
+          <nav aria-label="Navegação de páginas">
+            <ul class="pag-list">
+              <li class="pag-item" [class.disabled]="currentPage === 0">
+                <button class="pag-btn pag-btn--nav" (click)="irParaPagina(currentPage - 1)" [disabled]="currentPage === 0">
+                  <i class="fas fa-chevron-left"></i>
+                </button>
+              </li>
+              @for (item of paginationItems; track $index) {
+                @if (item === 'ellipsis') {
+                  <li class="pag-item pag-item--ellipsis"><span>···</span></li>
+                } @else {
+                  <li class="pag-item" [class.active]="$any(item) === currentPage">
+                    <button class="pag-btn" (click)="irParaPagina($any(item))">{{ $any(item) + 1 }}</button>
+                  </li>
+                }
+              }
+              <li class="pag-item" [class.disabled]="currentPage === totalPages - 1">
+                <button class="pag-btn pag-btn--nav" (click)="irParaPagina(currentPage + 1)" [disabled]="currentPage === totalPages - 1">
+                  <i class="fas fa-chevron-right"></i>
+                </button>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      }
     </div>
 
     <!-- Mobile Cards -->
@@ -109,14 +158,15 @@
       }
       @for (alimento of alimentos; track alimento.id) {
         <div class="item-card">
+          <div class="item-card-accent" [ngClass]="grupoBadgeClass(alimento.grupo)"></div>
           <div class="item-card-top">
-            <span class="item-card-name">{{ alimento.descricao }}</span>
+            <div class="item-card-heading">
+              <span class="item-card-name">{{ alimento.descricao }}</span>
+              <span class="item-card-code">{{ alimento.codigoSubstituicao }}</span>
+            </div>
             <span class="badge-grupo" [ngClass]="grupoBadgeClass(alimento.grupo)">{{ alimento.grupo }}</span>
           </div>
           <div class="item-card-meta">
-            <span class="meta-item">
-              <i class="fas fa-barcode"></i>{{ alimento.codigoSubstituicao }}
-            </span>
             <span class="meta-item energy">
               <i class="fas fa-fire-alt"></i>{{ alimento.energiaKcal | number:'1.0-2' }} kcal
             </span>
@@ -135,33 +185,18 @@
       }
     </div>
 
-    <!-- Pagination -->
+    <!-- Mobile Pagination -->
     @if (totalPages > 1) {
-      <div class="pagination-bar">
-        <small class="pagination-info">
-          Página {{ currentPage + 1 }} de {{ totalPages }} ({{ totalElements }} itens)
-        </small>
-        <nav>
-          <ul class="pagination pagination-sm mb-0">
-            <li class="page-item" [class.disabled]="currentPage === 0">
-              <button class="page-link" (click)="irParaPagina(currentPage - 1)">
-                <i class="fas fa-chevron-left"></i>
-              </button>
-            </li>
-            @for (p of paginas; track p) {
-              @if (p < 5 || p === totalPages - 1 || Math.abs(p - currentPage) <= 1) {
-                <li class="page-item" [class.active]="p === currentPage">
-                  <button class="page-link" (click)="irParaPagina(p)">{{ p + 1 }}</button>
-                </li>
-              }
-            }
-            <li class="page-item" [class.disabled]="currentPage === totalPages - 1">
-              <button class="page-link" (click)="irParaPagina(currentPage + 1)">
-                <i class="fas fa-chevron-right"></i>
-              </button>
-            </li>
-          </ul>
-        </nav>
+      <div class="mobile-pagination d-flex d-md-none">
+        <span class="pag-mobile-info">Pág. {{ currentPage + 1 }} / {{ totalPages }}</span>
+        <div class="pag-mobile-btns">
+          <button class="pag-mobile-btn" [disabled]="currentPage === 0" (click)="irParaPagina(currentPage - 1)">
+            <i class="fas fa-chevron-left"></i> Anterior
+          </button>
+          <button class="pag-mobile-btn pag-mobile-btn--next" [disabled]="currentPage === totalPages - 1" (click)="irParaPagina(currentPage + 1)">
+            Próximo <i class="fas fa-chevron-right"></i>
+          </button>
+        </div>
       </div>
     }
 
