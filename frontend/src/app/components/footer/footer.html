@@ -1,42 +1,38 @@
 <footer class="site-footer">
-  <div class="container-fluid">
-    <div class="footer-contact">
-      <a
-        href="https://www.instagram.com/personalnutri.andrereis"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="contact-link contact-link--instagram"
-        title="Instagram">
-        <i class="fab fa-instagram" aria-hidden="true"></i>
-        <span>@personalnutri.andrereis</span>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <a routerLink="/home" class="footer-brand" aria-label="Pagina inicial">
+        <img src="assets/images/logo-reduzido-contrast.svg" alt="Andre Reis Nutricao" class="footer-logo">
       </a>
 
-      <a
-        href="https://nutriandrereis.com.br"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="contact-link"
-        title="Site oficial">
-        <i class="fas fa-globe" aria-hidden="true"></i>
-        <span>nutriandrereis.com.br</span>
-      </a>
-
-      <a
-        href="https://wa.me/5521999291477"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="contact-link contact-link--whatsapp"
-        title="WhatsApp">
-        <i class="fab fa-whatsapp" aria-hidden="true"></i>
-        <span>21 99929-1477</span>
-      </a>
+      <div class="footer-socials">
+        <a href="https://www.instagram.com/personalnutri.andrereis"
+          target="_blank" rel="noopener noreferrer"
+          class="social-btn social-btn--instagram"
+          title="@personalnutri.andrereis">
+          <i class="fab fa-instagram" aria-hidden="true"></i>
+        </a>
+        <a href="https://nutriandrereis.com.br"
+          target="_blank" rel="noopener noreferrer"
+          class="social-btn"
+          title="nutriandrereis.com.br">
+          <i class="fas fa-globe" aria-hidden="true"></i>
+        </a>
+        <a href="https://wa.me/5521999291477"
+          target="_blank" rel="noopener noreferrer"
+          class="social-btn social-btn--whatsapp"
+          title="21 99929-1477">
+          <i class="fab fa-whatsapp" aria-hidden="true"></i>
+        </a>
+      </div>
     </div>
 
+    <span class="footer-sep" aria-hidden="true"></span>
+
     <p class="footer-copy">
-      &copy; {{ currentYear }} Desenvolvido por
-      <a href="https://portfolio.cesaraugusto.dev.br/" target="_blank" rel="noopener noreferrer" class="footer-author">Cesar Augusto Vieira Bezerra</a>
-      <span class="footer-separator">&mdash;</span>
-      <span class="footer-rights">Todos os direitos reservados.</span>
+      &copy; {{ currentYear }}
+      <a href="https://portfolio.cesaraugusto.dev.br/" target="_blank" rel="noopener noreferrer" class="footer-author">Cesar Augusto</a>
+      &mdash; Todos os direitos reservados.
     </p>
   </div>
 </footer>
