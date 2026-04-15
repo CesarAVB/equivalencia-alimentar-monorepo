@@ -1,3 +1,9 @@
+## [1.2.0](https://github.com/CesarAVB/equivalencia-alimentar-monorepo/compare/v1.1.0...v1.2.0) (2026-04-15)
+
+### Features
+
+* implementar lógica de promoção e reversão de plano de usuário ao processar eventos do Stripe ([603e000](https://github.com/CesarAVB/equivalencia-alimentar-monorepo/commit/603e000bfbe7541c478cb28cd9ad7d42521b4712))
+
 ## [1.1.0](https://github.com/CesarAVB/equivalencia-alimentar-monorepo/compare/v1.0.0...v1.1.0) (2026-04-15)
 
 ### Features
