@@ -49,6 +49,11 @@ export class ResultadoComponent {
     return this.dados.quantidadeGramasUsada ?? this.dados.equivalencias[0]?.quantidadeGramas ?? null;
   }
 
+  get energiaCalculada(): number | null {
+    if (!this.alimentoOrigem || this.quantidadeUsada == null) return null;
+    return (this.quantidadeUsada / 100) * this.alimentoOrigem.energiaKcal;
+  }
+
   formatQuantidade(eq: EquivalenciaDetalhada): string {
     const destino = eq.quantidadeDestinoGramas ?? (eq.quantidadeGramas ? (eq.quantidadeGramas * (eq.fatorEquivalencia ?? 1)) : undefined);
     if (destino == null || isNaN(destino)) return '—';
