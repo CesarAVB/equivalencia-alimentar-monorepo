@@ -29,8 +29,11 @@ public class GlobalExceptionHandler {
         ex.getBindingResult().getFieldErrors()
                 .forEach(erro -> errosCampos.put(erro.getField(), erro.getDefaultMessage()));
 
+        Map<String, Object> corpo = construirErro(HttpStatus.UNPROCESSABLE_ENTITY, "Erro de validação", "Erros de campos", request.getRequestURI());
+        corpo.put("errors", errosCampos);
+
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
-                .body(construirErro(HttpStatus.UNPROCESSABLE_ENTITY, "Erro de validação", errosCampos.toString(), request.getRequestURI()));
+                .body(corpo);
     }
 
     // ====================================================

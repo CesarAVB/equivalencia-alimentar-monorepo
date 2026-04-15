@@ -137,7 +137,17 @@ export class UsuariosListComponent implements OnInit {
       },
       error: (err) => {
         this.salvando = false;
-        const msg = err.error?.message ?? (this.modoEdicao ? 'Erro ao atualizar' : 'Erro ao criar usuário');
+        const apiBody = err.error ?? {};
+        let msg = this.modoEdicao ? 'Erro ao atualizar' : 'Erro ao criar usuário';
+
+        // Se o backend retornou um mapa de errors, formatar mensagens por campo
+        if (apiBody.errors && typeof apiBody.errors === 'object') {
+          const campos = Object.keys(apiBody.errors as Record<string, string>);
+          msg = campos.map(c => `${c}: ${(apiBody.errors as Record<string, string>)[c]}`).join(' | ');
+        } else if (apiBody.message) {
+          msg = apiBody.message;
+        }
+
         this.notifier.error(msg);
       }
     });
