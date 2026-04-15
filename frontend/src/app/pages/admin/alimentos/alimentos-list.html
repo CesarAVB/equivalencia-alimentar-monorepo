@@ -1,100 +1,144 @@
-<div class="container-fluid py-4">
+<div class="page-wrapper">
 
   <!-- Page Header -->
-  <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-2">
-    <div class="d-flex align-items-center gap-3">
-      <i class="fas fa-apple-alt fa-lg text-success"></i>
+  <div class="page-header">
+    <div class="page-header-info">
+      <div class="page-header-icon">
+        <i class="fas fa-apple-alt"></i>
+      </div>
       <div>
-        <h4 class="mb-0 fw-bold">Gestão de Alimentos</h4>
-        <small class="text-muted">{{ totalElements }} alimento(s) cadastrado(s)</small>
+        <h4 class="page-header-title">Gestão de Alimentos</h4>
+        <span class="page-header-sub">{{ totalElements }} alimento(s) cadastrado(s)</span>
       </div>
     </div>
-    <button class="btn btn-success" (click)="abrirModalCriar()">
-      <i class="fas fa-plus me-1"></i>Novo Alimento
+    <button class="btn-primary-action" (click)="abrirModalCriar()">
+      <i class="fas fa-plus"></i>
+      <span>Novo Alimento</span>
     </button>
   </div>
 
-  <!-- Filters -->
-  <div class="row g-2 mb-3">
-    <div class="col-md-6">
-      <input type="text" class="form-control" placeholder="Buscar por descrição..."
-        [(ngModel)]="filtroTexto" [ngModelOptions]="{standalone: true}" (keyup.enter)="buscar()">
-    </div>
-    <div class="col-md-4">
-      <select class="form-select" [(ngModel)]="filtroGrupo" [ngModelOptions]="{standalone: true}" (change)="buscar()">
-        <option value="">Todos os grupos</option>
-        @for (grupo of grupos; track grupo) {
-          <option [value]="grupo">{{ grupo }}</option>
-        }
-      </select>
-    </div>
-    <div class="col-md-2">
-      <button class="btn btn-outline-secondary w-100" (click)="buscar()">
-        <i class="fas fa-search me-1"></i>Buscar
+  <!-- Filters Bar -->
+  <div class="filters-bar">
+    <div class="filters-inner">
+      <div class="filter-field filter-field--search">
+        <i class="fas fa-search filter-icon"></i>
+        <input type="text" class="filter-input" placeholder="Buscar por descrição..."
+          [(ngModel)]="filtroTexto" [ngModelOptions]="{standalone: true}" (keyup.enter)="buscar()">
+      </div>
+      <div class="filter-field">
+        <select class="filter-select" [(ngModel)]="filtroGrupo" [ngModelOptions]="{standalone: true}" (change)="buscar()">
+          <option value="">Todos os grupos</option>
+          @for (grupo of grupos; track grupo) {
+            <option [value]="grupo">{{ grupo }}</option>
+          }
+        </select>
+      </div>
+      <button class="btn-filter-search" (click)="buscar()">
+        <i class="fas fa-search"></i>
+        <span>Buscar</span>
       </button>
     </div>
   </div>
 
   <!-- Loading -->
   @if (carregando) {
-    <div class="text-center py-5">
-      <div class="spinner-border text-success" role="status"></div>
-      <p class="mt-2 text-muted">Carregando alimentos...</p>
+    <div class="loading-state">
+      <div class="spinner-border" role="status"></div>
+      <p>Carregando alimentos...</p>
     </div>
   }
 
-  <!-- Table -->
   @if (!carregando) {
-    <div class="table-responsive">
-      <table class="table table-hover align-middle">
-        <thead class="table-light">
-          <tr>
-            <th>Código</th>
-            <th>Descrição</th>
-            <th class="text-center">Grupo</th>
-            <th class="text-center">Energia (kcal)</th>
-            <th class="text-center">Ações</th>
-          </tr>
-        </thead>
-        <tbody>
-          @if (alimentos.length === 0) {
+
+    <!-- Desktop Table -->
+    <div class="table-card d-none d-md-block">
+      <div class="table-responsive">
+        <table class="admin-table">
+          <thead>
             <tr>
-              <td colspan="5" class="text-center py-4 text-muted">
-                <i class="fas fa-inbox fa-2x mb-2 d-block"></i>
-                Nenhum alimento encontrado.
-              </td>
+              <th>Código</th>
+              <th>Descrição</th>
+              <th class="text-center">Grupo</th>
+              <th class="text-center">Energia (kcal)</th>
+              <th class="text-center">Ações</th>
             </tr>
-          }
-          @for (alimento of alimentos; track alimento.id) {
-            <tr>
-              <td><code class="text-muted">{{ alimento.codigoSubstituicao }}</code></td>
-              <td class="fw-semibold">{{ alimento.descricao }}</td>
-              <td class="text-center">
-                <span class="badge-grupo" [ngClass]="grupoBadgeClass(alimento.grupo)">{{ alimento.grupo }}</span>
-              </td>
-              <td class="text-center fw-bold text-success">{{ alimento.energiaKcal | number:'1.0-2' }}</td>
-              <td class="text-center">
-                <div class="d-flex gap-1 justify-content-center">
-                  <button class="btn btn-sm btn-outline-primary" title="Editar" (click)="abrirModalEditar(alimento)">
-                    <i class="fas fa-edit"></i>
-                  </button>
-                  @if (isAdmin) {
-                    <button class="btn btn-sm btn-outline-danger" title="Remover" (click)="remover(alimento)">
-                      <i class="fas fa-trash"></i>
+          </thead>
+          <tbody>
+            @if (alimentos.length === 0) {
+              <tr>
+                <td colspan="5" class="empty-row">
+                  <i class="fas fa-inbox"></i>
+                  Nenhum alimento encontrado.
+                </td>
+              </tr>
+            }
+            @for (alimento of alimentos; track alimento.id) {
+              <tr>
+                <td><code class="code-badge">{{ alimento.codigoSubstituicao }}</code></td>
+                <td class="fw-semibold">{{ alimento.descricao }}</td>
+                <td class="text-center">
+                  <span class="badge-grupo" [ngClass]="grupoBadgeClass(alimento.grupo)">{{ alimento.grupo }}</span>
+                </td>
+                <td class="text-center energy-value">{{ alimento.energiaKcal | number:'1.0-2' }} kcal</td>
+                <td class="text-center">
+                  <div class="action-btns">
+                    <button class="action-btn action-btn--edit" title="Editar" (click)="abrirModalEditar(alimento)">
+                      <i class="fas fa-edit"></i>
                     </button>
-                  }
-                </div>
-              </td>
-            </tr>
-          }
-        </tbody>
-      </table>
+                    @if (isAdmin) {
+                      <button class="action-btn action-btn--danger" title="Remover" (click)="remover(alimento)">
+                        <i class="fas fa-trash"></i>
+                      </button>
+                    }
+                  </div>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Mobile Cards -->
+    <div class="mobile-list d-block d-md-none">
+      @if (alimentos.length === 0) {
+        <div class="empty-state">
+          <i class="fas fa-inbox"></i>
+          <p>Nenhum alimento encontrado.</p>
+        </div>
+      }
+      @for (alimento of alimentos; track alimento.id) {
+        <div class="item-card">
+          <div class="item-card-top">
+            <span class="item-card-name">{{ alimento.descricao }}</span>
+            <span class="badge-grupo" [ngClass]="grupoBadgeClass(alimento.grupo)">{{ alimento.grupo }}</span>
+          </div>
+          <div class="item-card-meta">
+            <span class="meta-item">
+              <i class="fas fa-barcode"></i>{{ alimento.codigoSubstituicao }}
+            </span>
+            <span class="meta-item energy">
+              <i class="fas fa-fire-alt"></i>{{ alimento.energiaKcal | number:'1.0-2' }} kcal
+            </span>
+          </div>
+          <div class="item-card-actions">
+            <button class="action-btn action-btn--edit" (click)="abrirModalEditar(alimento)">
+              <i class="fas fa-edit"></i> Editar
+            </button>
+            @if (isAdmin) {
+              <button class="action-btn action-btn--danger" (click)="remover(alimento)">
+                <i class="fas fa-trash"></i> Remover
+              </button>
+            }
+          </div>
+        </div>
+      }
     </div>
 
     <!-- Pagination -->
     @if (totalPages > 1) {
-      <div class="d-flex align-items-center justify-content-between mt-3 flex-wrap gap-2">
-        <small class="text-muted">
+      <div class="pagination-bar">
+        <small class="pagination-info">
           Página {{ currentPage + 1 }} de {{ totalPages }} ({{ totalElements }} itens)
         </small>
         <nav>
@@ -120,6 +164,7 @@
         </nav>
       </div>
     }
+
   }
 
 </div>
