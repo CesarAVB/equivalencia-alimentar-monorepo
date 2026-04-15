@@ -1,118 +1,176 @@
-<div class="container-fluid py-4">
+<div class="page-wrapper">
 
   <!-- Page Header -->
-  <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-2">
-    <div class="d-flex align-items-center gap-3">
-      <i class="fas fa-users fa-lg text-warning"></i>
+  <div class="page-header">
+    <div class="page-header-info">
+      <div class="page-header-icon">
+        <i class="fas fa-users"></i>
+      </div>
       <div>
-        <h4 class="mb-0 fw-bold">Gestão de Usuários</h4>
-        <small class="text-muted">{{ usuariosFiltrados.length }} de {{ usuarios.length }} usuário(s)</small>
+        <h4 class="page-header-title">Gestão de Usuários</h4>
+        <span class="page-header-sub">{{ usuariosFiltrados.length }} de {{ usuarios.length }} usuário(s)</span>
       </div>
     </div>
-    <button class="btn btn-success" (click)="abrirModalCriar()">
-      <i class="fas fa-plus me-1"></i>Novo Usuário
+    <button class="btn-primary-action" (click)="abrirModalCriar()">
+      <i class="fas fa-plus"></i>
+      <span>Novo Usuário</span>
     </button>
   </div>
 
-  <!-- Filter -->
-  <div class="mb-3">
-    <input
-      type="text"
-      class="form-control"
-      placeholder="Buscar por nome, e-mail ou tipo..."
-      [(ngModel)]="filtroTexto"
-      [ngModelOptions]="{standalone: true}" />
+  <!-- Filters Bar -->
+  <div class="filters-bar">
+    <div class="filters-inner">
+      <div class="filter-field filter-field--search">
+        <i class="fas fa-search filter-icon"></i>
+        <input type="text" class="filter-input" placeholder="Buscar por nome, e-mail ou tipo..."
+          [(ngModel)]="filtroTexto" [ngModelOptions]="{standalone: true}">
+      </div>
+    </div>
   </div>
 
   <!-- Loading -->
   @if (carregando) {
-    <div class="text-center py-5">
-      <div class="spinner-border text-success" role="status"></div>
-      <p class="mt-2 text-muted">Carregando usuários...</p>
+    <div class="loading-state">
+      <div class="spinner-border" role="status"></div>
+      <p>Carregando usuários...</p>
     </div>
   }
 
-  <!-- Table -->
   @if (!carregando) {
-    <div class="table-responsive">
-      <table class="table table-hover align-middle">
-        <thead class="table-light">
-          <tr>
-            <th>Nome</th>
-            <th>E-mail</th>
-            <th>CPF</th>
-            <th class="text-center">Tipo</th>
-            <th class="text-center">Status</th>
-            <th class="text-center">Plano</th>
-            <th class="text-center">Expira em</th>
-            <th class="text-center">Ações</th>
-          </tr>
-        </thead>
-        <tbody>
-          @if (usuariosFiltrados.length === 0) {
+
+    <!-- Desktop Table -->
+    <div class="table-card d-none d-md-block">
+      <div class="table-responsive">
+        <table class="admin-table">
+          <thead>
             <tr>
-              <td colspan="8" class="text-center py-4 text-muted">
-                <i class="fas fa-inbox fa-2x mb-2 d-block"></i>
-                Nenhum usuário encontrado.
-              </td>
+              <th>Nome</th>
+              <th>E-mail</th>
+              <th class="d-none d-lg-table-cell">CPF</th>
+              <th class="text-center">Tipo</th>
+              <th class="text-center">Status</th>
+              <th class="text-center">Plano</th>
+              <th class="text-center d-none d-lg-table-cell">Expira em</th>
+              <th class="text-center">Ações</th>
             </tr>
-          }
-          @for (usuario of usuariosFiltrados; track usuario.id) {
-            <tr>
-              <td>
-                <div class="d-flex align-items-center gap-2">
-                  <div class="avatar-sm">
-                    {{ usuario.nome.charAt(0).toUpperCase() }}
+          </thead>
+          <tbody>
+            @if (usuariosFiltrados.length === 0) {
+              <tr>
+                <td colspan="8" class="empty-row">
+                  <i class="fas fa-inbox"></i>
+                  Nenhum usuário encontrado.
+                </td>
+              </tr>
+            }
+            @for (usuario of usuariosFiltrados; track usuario.id) {
+              <tr>
+                <td>
+                  <div class="user-cell">
+                    <div class="avatar-sm">{{ usuario.nome.charAt(0).toUpperCase() }}</div>
+                    <span class="fw-semibold">{{ usuario.nome }}</span>
                   </div>
-                  <span class="fw-semibold">{{ usuario.nome }}</span>
-                </div>
-              </td>
-              <td class="text-muted">{{ usuario.email }}</td>
-              <td class="text-muted">{{ usuario.cpf ?? '—' }}</td>
-              <td class="text-center">
-                <span class="badge-tipo" [ngClass]="tipoBadgeClass(usuario.tipo)">
-                  {{ usuario.tipo }}
-                </span>
-              </td>
-              <td class="text-center">
-                @if (usuario.ativo) {
-                  <span class="badge bg-success-subtle text-success border border-success-subtle">Ativo</span>
-                } @else {
-                  <span class="badge bg-danger-subtle text-danger border border-danger-subtle">Inativo</span>
-                }
-              </td>
-              <td class="text-center">
-                <span class="badge bg-secondary-subtle text-secondary">{{ usuario.plano ?? 'trial' }}</span>
-              </td>
-              <td class="text-center text-muted small">
-                @if (usuario.planoExpiraEm) {
-                  {{ usuario.planoExpiraEm | date:'dd/MM/yyyy HH:mm' }}
-                } @else {
-                  —
-                }
-              </td>
-              <td class="text-center">
-                <div class="d-flex gap-1 justify-content-center">
-                  <button class="btn btn-sm btn-outline-primary" title="Editar" (click)="abrirModalEditar(usuario)">
-                    <i class="fas fa-edit"></i>
-                  </button>
-                  <button
-                    class="btn btn-sm"
-                    [class]="usuario.ativo ? 'btn-outline-warning' : 'btn-outline-success'"
-                    [title]="usuario.ativo ? 'Desativar' : 'Ativar'"
-                    (click)="alternarAtivo(usuario)">
-                    <i [class]="'fas fa-' + (usuario.ativo ? 'ban' : 'check')"></i>
-                  </button>
-                  <button class="btn btn-sm btn-outline-danger" title="Remover" (click)="remover(usuario)">
-                    <i class="fas fa-trash"></i>
-                  </button>
-                </div>
-              </td>
-            </tr>
-          }
-        </tbody>
-      </table>
+                </td>
+                <td class="text-muted">{{ usuario.email }}</td>
+                <td class="text-muted d-none d-lg-table-cell">{{ usuario.cpf ?? '—' }}</td>
+                <td class="text-center">
+                  <span class="badge-tipo" [ngClass]="tipoBadgeClass(usuario.tipo)">{{ usuario.tipo }}</span>
+                </td>
+                <td class="text-center">
+                  @if (usuario.ativo) {
+                    <span class="status-badge status-badge--active">Ativo</span>
+                  } @else {
+                    <span class="status-badge status-badge--inactive">Inativo</span>
+                  }
+                </td>
+                <td class="text-center">
+                  <span class="plano-badge">{{ usuario.plano ?? 'trial' }}</span>
+                </td>
+                <td class="text-center text-muted small d-none d-lg-table-cell">
+                  @if (usuario.planoExpiraEm) {
+                    {{ usuario.planoExpiraEm | date:'dd/MM/yyyy' }}
+                  } @else {
+                    —
+                  }
+                </td>
+                <td class="text-center">
+                  <div class="action-btns">
+                    <button class="action-btn action-btn--edit" title="Editar" (click)="abrirModalEditar(usuario)">
+                      <i class="fas fa-edit"></i>
+                    </button>
+                    <button
+                      class="action-btn"
+                      [class]="usuario.ativo ? 'action-btn--warn' : 'action-btn--success'"
+                      [title]="usuario.ativo ? 'Desativar' : 'Ativar'"
+                      (click)="alternarAtivo(usuario)">
+                      <i [class]="'fas fa-' + (usuario.ativo ? 'ban' : 'check')"></i>
+                    </button>
+                    <button class="action-btn action-btn--danger" title="Remover" (click)="remover(usuario)">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
     </div>
+
+    <!-- Mobile Cards -->
+    <div class="mobile-list d-block d-md-none">
+      @if (usuariosFiltrados.length === 0) {
+        <div class="empty-state">
+          <i class="fas fa-inbox"></i>
+          <p>Nenhum usuário encontrado.</p>
+        </div>
+      }
+      @for (usuario of usuariosFiltrados; track usuario.id) {
+        <div class="item-card">
+          <div class="item-card-top">
+            <div class="user-identity">
+              <div class="avatar-sm">{{ usuario.nome.charAt(0).toUpperCase() }}</div>
+              <div class="user-identity-info">
+                <span class="item-card-name">{{ usuario.nome }}</span>
+                <span class="user-email">{{ usuario.email }}</span>
+              </div>
+            </div>
+            <span class="badge-tipo" [ngClass]="tipoBadgeClass(usuario.tipo)">{{ usuario.tipo }}</span>
+          </div>
+
+          <div class="item-card-badges">
+            @if (usuario.ativo) {
+              <span class="status-badge status-badge--active">Ativo</span>
+            } @else {
+              <span class="status-badge status-badge--inactive">Inativo</span>
+            }
+            <span class="plano-badge">{{ usuario.plano ?? 'trial' }}</span>
+            @if (usuario.planoExpiraEm) {
+              <span class="meta-item">
+                <i class="fas fa-calendar-alt"></i>{{ usuario.planoExpiraEm | date:'dd/MM/yyyy' }}
+              </span>
+            }
+          </div>
+
+          <div class="item-card-actions">
+            <button class="action-btn action-btn--edit" (click)="abrirModalEditar(usuario)">
+              <i class="fas fa-edit"></i> Editar
+            </button>
+            <button
+              class="action-btn"
+              [class]="usuario.ativo ? 'action-btn--warn' : 'action-btn--success'"
+              (click)="alternarAtivo(usuario)">
+              <i [class]="'fas fa-' + (usuario.ativo ? 'ban' : 'check')"></i>
+              {{ usuario.ativo ? 'Desativar' : 'Ativar' }}
+            </button>
+            <button class="action-btn action-btn--danger" (click)="remover(usuario)">
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
+        </div>
+      }
+    </div>
+
   }
 
 </div>
