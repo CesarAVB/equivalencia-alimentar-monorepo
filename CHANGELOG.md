@@ -1,3 +1,10 @@
+## [1.5.0](https://github.com/CesarAVB/equivalencia-alimentar-monorepo/compare/v1.4.0...v1.5.0) (2026-04-15)
+
+### Features
+
+* melhorar a interface da lista de alimentos com novos estilos e estrutura ([8f535c3](https://github.com/CesarAVB/equivalencia-alimentar-monorepo/commit/8f535c3dae16310dabfe6f32323ac2bda0cca073))
+* reformular a interface da lista de usuários com novos estilos e estrutura ([a5ccaaa](https://github.com/CesarAVB/equivalencia-alimentar-monorepo/commit/a5ccaaa430d21adde17d8cd5445ab8cebc87639b))
+
 ## [1.4.0](https://github.com/CesarAVB/equivalencia-alimentar-monorepo/compare/v1.3.0...v1.4.0) (2026-04-15)
 
 ### Features
