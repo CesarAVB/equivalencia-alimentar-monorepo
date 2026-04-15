@@ -10,10 +10,12 @@ import com.stripe.Stripe;
 import com.stripe.exception.SignatureVerificationException;
 import com.stripe.model.Customer;
 import com.stripe.model.Event;
+import com.stripe.model.EventDataObjectDeserializer;
+import com.stripe.model.Subscription;
 import jakarta.persistence.EntityNotFoundException;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -25,6 +27,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
@@ -67,8 +70,6 @@ class StripeServiceTest {
 
         assertThrows(EntityNotFoundException.class, () -> stripeService.criarCheckoutSession(usuarioId, request));
     }
-
-    
 
     @Test
     @DisplayName("Deve criar checkout session quando dados forem válidos")
@@ -156,6 +157,69 @@ class StripeServiceTest {
             stripeService.processarWebhook("{}", "sig");
 
             verify(usuarioRepository, never()).save(any(Usuario.class));
+        }
+    }
+
+    @Test
+    @DisplayName("Deve promover usuário para PADRAO ao concluir checkout")
+    void devePromoverUsuarioParaPadraoAoConcluirCheckout() throws Exception {
+        ReflectionTestUtils.setField(stripeService, "webhookSecret", "whsec_123");
+
+        Usuario usuario = usuario(UUID.randomUUID(), "cus_ok");
+        usuario.setPlano(PlanoTipo.TRIAL);
+        usuario.setPlanoExpiraEm(null);
+
+        Event event = mock(Event.class);
+        EventDataObjectDeserializer deserializer = mock(EventDataObjectDeserializer.class);
+        com.stripe.model.checkout.Session session = mock(com.stripe.model.checkout.Session.class);
+
+        when(event.getType()).thenReturn("checkout.session.completed");
+        when(event.getDataObjectDeserializer()).thenReturn(deserializer);
+        when(deserializer.getObject()).thenReturn(Optional.of(session));
+        when(session.getCustomer()).thenReturn("cus_ok");
+        when(usuarioRepository.findByStripeCustomerId("cus_ok")).thenReturn(Optional.of(usuario));
+        when(usuarioRepository.save(any(Usuario.class))).thenAnswer(i -> i.getArgument(0));
+
+        try (MockedStatic<com.stripe.net.Webhook> webhookMock = mockStatic(com.stripe.net.Webhook.class)) {
+            webhookMock.when(() -> com.stripe.net.Webhook.constructEvent("{}", "sig", "whsec_123"))
+                    .thenReturn(event);
+
+            stripeService.processarWebhook("{}", "sig");
+
+            assertEquals(PlanoTipo.PADRAO, usuario.getPlano());
+            assertNotNull(usuario.getPlanoExpiraEm());
+            verify(usuarioRepository).save(usuario);
+        }
+    }
+
+    @Test
+    @DisplayName("Deve reverter usuário para TRIAL ao cancelar assinatura")
+    void deveReverterUsuarioParaTrialAoCancelarAssinatura() throws Exception {
+        ReflectionTestUtils.setField(stripeService, "webhookSecret", "whsec_123");
+
+        Usuario usuario = usuario(UUID.randomUUID(), "cus_cancel");
+        usuario.setPlano(PlanoTipo.PADRAO);
+
+        Event event = mock(Event.class);
+        EventDataObjectDeserializer deserializer = mock(EventDataObjectDeserializer.class);
+        Subscription subscription = mock(Subscription.class);
+
+        when(event.getType()).thenReturn("customer.subscription.deleted");
+        when(event.getDataObjectDeserializer()).thenReturn(deserializer);
+        when(deserializer.getObject()).thenReturn(Optional.of(subscription));
+        when(subscription.getCustomer()).thenReturn("cus_cancel");
+        when(usuarioRepository.findByStripeCustomerId("cus_cancel")).thenReturn(Optional.of(usuario));
+        when(usuarioRepository.save(any(Usuario.class))).thenAnswer(i -> i.getArgument(0));
+
+        try (MockedStatic<com.stripe.net.Webhook> webhookMock = mockStatic(com.stripe.net.Webhook.class)) {
+            webhookMock.when(() -> com.stripe.net.Webhook.constructEvent("{}", "sig", "whsec_123"))
+                    .thenReturn(event);
+
+            stripeService.processarWebhook("{}", "sig");
+
+            assertEquals(PlanoTipo.TRIAL, usuario.getPlano());
+            assertNotNull(usuario.getPlanoExpiraEm());
+            verify(usuarioRepository).save(usuario);
         }
     }
 
