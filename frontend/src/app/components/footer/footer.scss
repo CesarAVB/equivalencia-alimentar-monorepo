@@ -41,6 +41,7 @@
   width: auto;
   max-width: min(48vw, 260px);
   object-fit: contain;
+  filter: brightness(0) invert(1) saturate(0) brightness(1.15);
 }
 
 .footer-socials {
