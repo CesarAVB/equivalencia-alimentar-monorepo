@@ -1,86 +1,106 @@
 <header class="site-header">
   <div class="container-fluid">
     <div class="header-inner">
-      <div class="brand-cluster">
-        <a class="brand" routerLink="/home">
+      <div class="header-topbar">
+        <a class="brand" routerLink="/home" (click)="closeMenu()">
           <img src="images/logo-reduzido.png" alt="Lista de Substituicao - Andre Reis" class="brand-logo">
         </a>
+
+        @if (usuario$ | async) {
+          <button
+            type="button"
+            class="menu-toggle"
+            [class.is-open]="menuOpen"
+            [attr.aria-expanded]="menuOpen"
+            aria-controls="header-shell"
+            [attr.aria-label]="menuOpen ? 'Fechar navegacao' : 'Abrir navegacao'"
+            (click)="toggleMenu()"
+          >
+            <i class="fas" [class.fa-bars]="!menuOpen" [class.fa-xmark]="menuOpen"></i>
+          </button>
+        }
       </div>
 
       @if (usuario$ | async; as usuario) {
-        <nav class="header-nav">
-          <a routerLink="/home" routerLinkActive="active" class="nav-link-item">
-            <i class="fas fa-home"></i>
-            <span>Inicio</span>
-          </a>
-
-          @if (isAdminOrNutricionista) {
-            <a routerLink="/admin/dashboard" routerLinkActive="active" class="nav-link-item">
-              <i class="fas fa-tachometer-alt"></i>
-              <span>Painel</span>
-            </a>
-            <a routerLink="/admin/alimentos" routerLinkActive="active" class="nav-link-item">
-              <i class="fas fa-apple-alt"></i>
-              <span>Alimentos</span>
-            </a>
-            <a routerLink="/admin/equivalencias" routerLinkActive="active" class="nav-link-item">
-              <i class="fas fa-exchange-alt"></i>
-              <span>Equivalencias</span>
-            </a>
-          }
-
-          @if (isAdmin) {
-            <a routerLink="/admin/usuarios" routerLinkActive="active" class="nav-link-item">
-              <i class="fas fa-users"></i>
-              <span>Usuarios</span>
-            </a>
-          }
-
-          <a routerLink="/planos" routerLinkActive="active" class="nav-link-item">
-            <i class="fas fa-layer-group"></i>
-            <span>Planos</span>
-          </a>
-        </nav>
-
-        <div class="header-right">
-          <div class="account-panel">
-            <a routerLink="/planos" class="plano-badge" [class]="'plano-badge--' + (usuario.plano ?? 'trial' | lowercase)"
-               title="Ver planos">
-              <i class="fas fa-bolt"></i>
-              {{ usuario.plano ?? 'trial' }}
+        <div class="header-shell" id="header-shell" [class.is-open]="menuOpen">
+          <nav class="header-nav">
+            <a routerLink="/home" routerLinkActive="active" class="nav-link-item" (click)="closeMenu()">
+              <i class="fas fa-home"></i>
+              <span>Inicio</span>
             </a>
 
-            @if (usuario.plano === 'trial') {
-              @if (!isTrialExpired(usuario)) {
-                <a class="trial-badge" routerLink="/planos" title="Seu trial expira em breve">
-                  Seu trial expira em {{ diasRestantes(usuario) }} dia{{ diasRestantes(usuario) === 1 ? '' : 's' }}
-                </a>
-              } @else {
-                <a class="trial-expired" routerLink="/planos" title="Trial expirado - renovar">
-                  Trial expirado - ver planos
-                </a>
-              }
+            @if (isAdminOrNutricionista) {
+              <a routerLink="/admin/dashboard" routerLinkActive="active" class="nav-link-item" (click)="closeMenu()">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>Painel</span>
+              </a>
+              <a routerLink="/admin/alimentos" routerLinkActive="active" class="nav-link-item" (click)="closeMenu()">
+                <i class="fas fa-apple-alt"></i>
+                <span>Alimentos</span>
+              </a>
             }
 
-            <div class="user-chip" [title]="usuario.email">
-              <span class="user-avatar">
-                {{ iniciais(usuario.nome) }}
-              </span>
-              <div class="user-meta">
-                <span class="user-nome">{{ usuario.nome }}</span>
-                <span class="user-email">{{ usuario.tipo }}</span>
+            @if (isAdmin) {
+              <a routerLink="/admin/usuarios" routerLinkActive="active" class="nav-link-item" (click)="closeMenu()">
+                <i class="fas fa-users"></i>
+                <span>Usuarios</span>
+              </a>
+            }
+
+            <a routerLink="/planos" routerLinkActive="active" class="nav-link-item" (click)="closeMenu()">
+              <i class="fas fa-layer-group"></i>
+              <span>Planos</span>
+            </a>
+          </nav>
+
+          <div class="header-right">
+            <div class="account-panel">
+              <div class="account-primary">
+                <a
+                  routerLink="/planos"
+                  [class]="'plano-badge plano-badge--' + (usuario.plano ?? 'trial' | lowercase)"
+                  title="Ver planos"
+                  (click)="closeMenu()"
+                >
+                  <i class="fas fa-bolt"></i>
+                  {{ usuario.plano ?? 'trial' }}
+                </a>
+
+                @if (usuario.plano === 'trial') {
+                  @if (!isTrialExpired(usuario)) {
+                    <a class="trial-badge" routerLink="/planos" title="Seu trial expira em breve" (click)="closeMenu()">
+                      Seu trial expira em {{ diasRestantes(usuario) }} dia{{ diasRestantes(usuario) === 1 ? '' : 's' }}
+                    </a>
+                  } @else {
+                    <a class="trial-expired" routerLink="/planos" title="Trial expirado - renovar" (click)="closeMenu()">
+                      Trial expirado - ver planos
+                    </a>
+                  }
+                }
+              </div>
+
+              <div class="account-secondary">
+                <div class="user-chip" [title]="usuario.email">
+                  <span class="user-avatar">
+                    {{ iniciais(usuario.nome) }}
+                  </span>
+                  <div class="user-meta">
+                    <span class="user-nome">{{ usuario.nome }}</span>
+                    <span class="user-email">{{ usuario.tipo }}</span>
+                  </div>
+                </div>
+
+                <span class="session-badge" aria-label="Sessao ativa">
+                  <i class="fas fa-circle"></i>
+                  Online
+                </span>
+
+                <button class="logout-btn" (click)="logout()" title="Sair da conta">
+                  <i class="fas fa-sign-out-alt"></i>
+                  <span class="logout-label">Sair</span>
+                </button>
               </div>
             </div>
-
-            <span class="session-badge" aria-label="Sessao ativa">
-              <i class="fas fa-circle"></i>
-              Online
-            </span>
-
-            <button class="logout-btn" (click)="logout()" title="Sair da conta">
-              <i class="fas fa-sign-out-alt"></i>
-              <span class="logout-label">Sair</span>
-            </button>
           </div>
         </div>
       }

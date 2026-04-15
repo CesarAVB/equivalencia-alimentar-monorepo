@@ -1,9 +1,9 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostListener, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { AuthService } from '../../services/auth.service';
-import { UsuarioSessao } from '../../models/usuario';
 import { Observable } from 'rxjs';
+import { UsuarioSessao } from '../../models/usuario';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -14,7 +14,9 @@ import { Observable } from 'rxjs';
 })
 export class HeaderComponent {
   private readonly auth = inject(AuthService);
+
   usuario$: Observable<UsuarioSessao | null> = this.auth.usuario$;
+  menuOpen = false;
 
   get isAdmin(): boolean {
     return this.auth.isAdmin;
@@ -45,7 +47,23 @@ export class HeaderComponent {
     return this.auth.isTrialExpired(usuario);
   }
 
+  toggleMenu(): void {
+    this.menuOpen = !this.menuOpen;
+  }
+
+  closeMenu(): void {
+    this.menuOpen = false;
+  }
+
+  @HostListener('window:resize')
+  onWindowResize(): void {
+    if (typeof window !== 'undefined' && window.innerWidth > 1100 && this.menuOpen) {
+      this.menuOpen = false;
+    }
+  }
+
   logout(): void {
+    this.closeMenu();
     this.auth.logout();
   }
 }
