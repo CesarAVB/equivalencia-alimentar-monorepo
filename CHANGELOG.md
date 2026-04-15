@@ -1,3 +1,9 @@
+## [1.10.0](https://github.com/CesarAVB/equivalencia-alimentar-monorepo/compare/v1.9.0...v1.10.0) (2026-04-15)
+
+### Features
+
+* alterar botão de calcular para buscar e ajustar estilos ([aed0e03](https://github.com/CesarAVB/equivalencia-alimentar-monorepo/commit/aed0e035837963817f9991ee277edfba284cdba1))
+
 ## [1.9.0](https://github.com/CesarAVB/equivalencia-alimentar-monorepo/compare/v1.8.0...v1.9.0) (2026-04-15)
 
 ### Features
