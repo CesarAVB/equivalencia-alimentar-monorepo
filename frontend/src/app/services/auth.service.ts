@@ -4,7 +4,7 @@ import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { Router } from '@angular/router';
 import { NotificationService } from './notification.service';
 import { AuthResponse } from '../models/auth-response';
-import { UsuarioSessao } from '../models/usuario';
+import { PlanoTipo, UsuarioSessao } from '../models/usuario';
 import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
@@ -50,7 +50,7 @@ export class AuthService {
         const sessao: UsuarioSessao = {
           nome: res.nome,
           email: res.email,
-          tipo: res.tipo,
+          tipo: res.perfil,
           plano: res.plano,
           planoExpiraEm: res.planoExpiraEm
         };
@@ -62,8 +62,8 @@ export class AuthService {
     );
   }
 
-  get planoAtual(): string {
-    return this.usuarioAtual?.plano ?? 'FREE';
+  get planoAtual(): PlanoTipo {
+    return this.usuarioAtual?.plano ?? 'trial';
   }
 
   /** Retorna true se o trial já expirou (verificação local sem chamar backend) */
@@ -90,10 +90,10 @@ export class AuthService {
     return false;
   }
 
-  atualizarPlanoNaSessao(plano: string, planoExpiraEm?: string): void {
+  atualizarPlanoNaSessao(plano: PlanoTipo, planoExpiraEm?: string): void {
     const atual = this.usuarioSubject.value;
     if (!atual) return;
-    const atualizado: UsuarioSessao = { ...atual, plano: plano as any, planoExpiraEm };
+    const atualizado: UsuarioSessao = { ...atual, plano, planoExpiraEm };
     sessionStorage.setItem(this.STORAGE_KEY, JSON.stringify(atualizado));
     this.usuarioSubject.next(atualizado);
   }

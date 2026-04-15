@@ -14,12 +14,9 @@ export class PagamentoSucessoComponent implements OnInit {
   constructor(private auth: AuthService) {}
 
   ngOnInit(): void {
-    // O plano será atualizado pelo webhook no backend.
-    // Na próxima vez que o usuário fizer login, o plano virá atualizado.
-    // Para evitar que a sessão mostre o plano antigo, limpamos o cache local.
     const atual = this.auth.usuarioAtual;
     if (atual) {
-      this.auth.atualizarPlanoNaSessao('BASIC'); // provisório até re-login
+      this.auth.atualizarPlanoNaSessao('padrao');
     }
   }
 }

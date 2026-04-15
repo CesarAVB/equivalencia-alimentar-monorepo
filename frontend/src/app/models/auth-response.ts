@@ -2,7 +2,8 @@ import { PlanoTipo } from './usuario';
 
 export interface AuthResponse {
   token: string;
-  tipo: 'ADMIN' | 'NUTRICIONISTA' | 'PACIENTE';
+  tipo: 'Bearer';
+  perfil: 'ADMIN' | 'NUTRICIONISTA' | 'PACIENTE';
   nome: string;
   email: string;
   plano?: PlanoTipo;

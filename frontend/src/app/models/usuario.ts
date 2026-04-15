@@ -1,5 +1,5 @@
 export type UsuarioTipo = 'ADMIN' | 'NUTRICIONISTA' | 'PACIENTE';
-export type PlanoTipo = 'FREE' | 'DEMO' | 'BASIC' | 'PRO' | 'trial' | 'padrao';
+export type PlanoTipo = 'trial' | 'padrao';
 
 export interface Usuario {
   id?: string;

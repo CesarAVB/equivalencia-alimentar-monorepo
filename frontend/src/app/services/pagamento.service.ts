@@ -2,10 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { PlanoTipo } from '../models/usuario';
-
 export interface CheckoutRequest {
-  plano: PlanoTipo;
   successUrl: string;
   cancelUrl: string;
 }
@@ -28,10 +25,9 @@ export class PagamentoService {
 
   constructor(private http: HttpClient) {}
 
-  iniciarCheckout(plano: PlanoTipo): Observable<CheckoutResponse> {
+  iniciarCheckout(): Observable<CheckoutResponse> {
     const base = window.location.origin;
     const body: CheckoutRequest = {
-      plano,
       successUrl: `${base}/pagamento/sucesso`,
       cancelUrl: `${base}/pagamento/cancelado`
     };
@@ -39,6 +35,10 @@ export class PagamentoService {
   }
 
   abrirPortal(): Observable<PortalResponse> {
-    return this.http.get<PortalResponse>(`${this.apiUrl}/portal`);
+    return this.http.get<PortalResponse>(`${this.apiUrl}/portal`, {
+      params: {
+        returnUrl: `${window.location.origin}/planos`
+      }
+    });
   }
 }

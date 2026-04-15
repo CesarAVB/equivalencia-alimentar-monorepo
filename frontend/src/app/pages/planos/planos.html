@@ -1,12 +1,10 @@
 <div class="planos-page">
-
-  <!-- Hero -->
   <div class="planos-hero">
     <div class="container">
       <h1 class="hero-title">Escolha seu plano</h1>
       <p class="hero-sub">Acesse as ferramentas certas para o seu acompanhamento nutricional.</p>
 
-      @if (planoAtual !== 'FREE') {
+      @if (planoAtual === 'padrao') {
         <div class="plano-ativo-info">
           <i class="fas fa-check-circle"></i>
           Seu plano atual: <strong>{{ planoAtual }}</strong>
@@ -23,13 +21,10 @@
     </div>
   </div>
 
-  <!-- Cards -->
   <div class="container planos-container">
     <div class="planos-grid">
-
       @for (plano of planos; track plano.id) {
         <div class="plano-card" [class.plano-destaque]="plano.destaque" [class]="plano.cor + ' ' + (plano.destaque ? 'plano-destaque' : '')">
-
           @if (plano.destaque) {
             <div class="badge-popular">
               <i class="fas fa-star"></i> Mais popular
@@ -65,7 +60,7 @@
               <button class="btn-plano btn-plano--ativo" disabled>
                 <i class="fas fa-check me-1"></i>Plano atual
               </button>
-            } @else if (plano.id === 'FREE') {
+            } @else if (plano.id === 'trial') {
               <button class="btn-plano btn-plano--free" disabled>
                 Gratuito
               </button>
@@ -75,8 +70,8 @@
                 [class.btn-plano--destaque]="plano.destaque"
                 [class.btn-plano--padrao]="!plano.destaque"
                 (click)="assinar(plano.id)"
-                [disabled]="carregandoCheckout !== null">
-                @if (carregandoCheckout === plano.id) {
+                [disabled]="carregandoCheckout">
+                @if (carregandoCheckout) {
                   <span class="spinner-border spinner-border-sm me-1"></span>
                   Redirecionando...
                 } @else {
@@ -86,17 +81,13 @@
               </button>
             }
           </div>
-
         </div>
       }
-
     </div>
 
-    <!-- Nota -->
     <p class="planos-nota">
       <i class="fas fa-lock me-1"></i>
       Pagamento seguro via Stripe. Cancele a qualquer momento sem multa.
     </p>
   </div>
-
 </div>

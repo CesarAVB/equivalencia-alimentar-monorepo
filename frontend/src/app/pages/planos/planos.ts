@@ -25,37 +25,37 @@ interface Plano {
   styleUrls: ['./planos.scss']
 })
 export class PlanosComponent implements OnInit {
-  planoAtual: PlanoTipo = 'FREE';
-  carregandoCheckout: PlanoTipo | null = null;
+  planoAtual: PlanoTipo = 'trial';
+  carregandoCheckout = false;
   carregandoPortal = false;
 
   readonly planos: Plano[] = [
     {
-      id: 'DEMO',
-      nome: 'Demonstração',
+      id: 'trial',
+      nome: 'Trial',
       preco: 'Gratuito',
-      periodo: '',
-      descricao: 'Teste todos os recursos por 30 dias.',
+      periodo: 'por 30 dias',
+      descricao: 'Acesso inicial para avaliar a plataforma sem cartao.',
       recursos: [
         'Acesso completo aos recursos por 30 dias',
-        'Sem necessidade de cartão',
-        'Relatórios básicos e histórico de consultas',
-        'Exportação CSV'
+        'Sem necessidade de cartao',
+        'Consulta de equivalencias e catalogo completo',
+        'Exportacao CSV'
       ],
       destaque: false,
       cor: 'plano-demo'
     },
     {
-      id: 'BASIC',
-      nome: 'Basic',
+      id: 'padrao',
+      nome: 'Padrao',
       preco: 'R$ 2,00',
-      periodo: 'por mês',
-      descricao: 'Plano mensal econômico para uso contínuo.',
+      periodo: 'por mes',
+      descricao: 'Assinatura mensal do plano unico disponivel no backend.',
       recursos: [
-        'Tudo do plano Demonstração',
-        'Histórico completo',
+        'Tudo do trial',
+        'Historico completo',
         'Suporte por e-mail',
-        'Acesso a atualizações'
+        'Acesso a atualizacoes'
       ],
       destaque: true,
       cor: 'plano-basic'
@@ -69,7 +69,7 @@ export class PlanosComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.planoAtual = (this.auth.planoAtual as PlanoTipo) ?? 'FREE';
+    this.planoAtual = this.auth.planoAtual;
   }
 
   isPlanoAtual(planoId: PlanoTipo): boolean {
@@ -77,22 +77,21 @@ export class PlanosComponent implements OnInit {
   }
 
   assinar(planoId: PlanoTipo): void {
-    if (planoId === 'FREE') return;
-    this.carregandoCheckout = planoId;
+    if (planoId !== 'padrao') return;
+    this.carregandoCheckout = true;
 
-    this.pagamento.iniciarCheckout(planoId).subscribe({
+    this.pagamento.iniciarCheckout().subscribe({
       next: (res) => {
-        console.log('iniciarCheckout response:', res);
         const url = res?.checkoutUrl ?? res?.url;
         if (url) {
           window.location.href = url;
         } else {
-          this.carregandoCheckout = null;
-          this.notifier.error('Resposta inválida do servidor ao iniciar checkout.');
+          this.carregandoCheckout = false;
+          this.notifier.error('Resposta invalida do servidor ao iniciar checkout.');
         }
       },
       error: (err) => {
-        this.carregandoCheckout = null;
+        this.carregandoCheckout = false;
         const msg = err.error?.message ?? 'Erro ao iniciar checkout. Tente novamente.';
         this.notifier.error(msg);
       }
@@ -108,7 +107,7 @@ export class PlanosComponent implements OnInit {
           window.location.href = url;
         } else {
           this.carregandoPortal = false;
-          this.notifier.error('Resposta inválida do servidor ao abrir portal de assinatura.');
+          this.notifier.error('Resposta invalida do servidor ao abrir portal de assinatura.');
         }
       },
       error: (err) => {

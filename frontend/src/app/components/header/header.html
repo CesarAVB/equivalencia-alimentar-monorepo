@@ -1,20 +1,17 @@
 <header class="site-header">
   <div class="container-fluid">
     <div class="header-inner">
-
-      <!-- Brand -->
       <div class="brand-cluster">
         <a class="brand" routerLink="/home">
-          <img src="images/logo-reduzido.png" alt="Lista de Substituição - André Reis" class="brand-logo">
+          <img src="images/logo-reduzido.png" alt="Lista de Substituicao - Andre Reis" class="brand-logo">
         </a>
       </div>
 
-      <!-- Navigation -->
       @if (usuario$ | async; as usuario) {
         <nav class="header-nav">
           <a routerLink="/home" routerLinkActive="active" class="nav-link-item">
             <i class="fas fa-home"></i>
-            <span>Início</span>
+            <span>Inicio</span>
           </a>
 
           @if (isAdminOrNutricionista) {
@@ -28,14 +25,14 @@
             </a>
             <a routerLink="/admin/equivalencias" routerLinkActive="active" class="nav-link-item">
               <i class="fas fa-exchange-alt"></i>
-              <span>Equivalências</span>
+              <span>Equivalencias</span>
             </a>
           }
 
           @if (isAdmin) {
             <a routerLink="/admin/usuarios" routerLinkActive="active" class="nav-link-item">
               <i class="fas fa-users"></i>
-              <span>Usuários</span>
+              <span>Usuarios</span>
             </a>
           }
 
@@ -45,26 +42,22 @@
           </a>
         </nav>
 
-        <!-- Right side -->
         <div class="header-right">
           <div class="account-panel">
-
-            <!-- Badge do plano -->
-            <a routerLink="/planos" class="plano-badge" [class]="'plano-badge--' + (usuario.plano ?? 'free' | lowercase)"
+            <a routerLink="/planos" class="plano-badge" [class]="'plano-badge--' + (usuario.plano ?? 'trial' | lowercase)"
                title="Ver planos">
               <i class="fas fa-bolt"></i>
-              {{ usuario.plano ?? 'FREE' }}
+              {{ usuario.plano ?? 'trial' }}
             </a>
 
-            <!-- Aviso de trial -->
             @if (usuario.plano === 'trial') {
               @if (!isTrialExpired(usuario)) {
                 <a class="trial-badge" routerLink="/planos" title="Seu trial expira em breve">
                   Seu trial expira em {{ diasRestantes(usuario) }} dia{{ diasRestantes(usuario) === 1 ? '' : 's' }}
                 </a>
               } @else {
-                <a class="trial-expired" routerLink="/planos" title="Trial expirado — renovar">
-                  Trial expirado — ver planos
+                <a class="trial-expired" routerLink="/planos" title="Trial expirado - renovar">
+                  Trial expirado - ver planos
                 </a>
               }
             }
@@ -79,7 +72,7 @@
               </div>
             </div>
 
-            <span class="session-badge" aria-label="Sessão ativa">
+            <span class="session-badge" aria-label="Sessao ativa">
               <i class="fas fa-circle"></i>
               Online
             </span>
@@ -91,7 +84,6 @@
           </div>
         </div>
       }
-
     </div>
   </div>
 </header>
