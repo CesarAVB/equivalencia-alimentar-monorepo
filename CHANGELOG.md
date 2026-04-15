@@ -1,3 +1,10 @@
+## [1.9.0](https://github.com/CesarAVB/equivalencia-alimentar-monorepo/compare/v1.8.0...v1.9.0) (2026-04-15)
+
+### Features
+
+* adicionar logo reduzido ao rodapé ([3f4925e](https://github.com/CesarAVB/equivalencia-alimentar-monorepo/commit/3f4925ed5ae64e2fa5e116d4482db044b5bdf9d5))
+* substituir logo reduzido no rodapé e ajustar estilos ([a327b27](https://github.com/CesarAVB/equivalencia-alimentar-monorepo/commit/a327b27ff1b82e1e301f56ffa55adf2676cf7b32))
+
 ## [1.8.0](https://github.com/CesarAVB/equivalencia-alimentar-monorepo/compare/v1.7.0...v1.8.0) (2026-04-15)
 
 ### Features
