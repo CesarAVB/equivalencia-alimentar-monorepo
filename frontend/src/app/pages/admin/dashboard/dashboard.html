@@ -4,7 +4,7 @@
     <i class="fas fa-tachometer-alt fa-lg text-success me-3"></i>
     <div>
       <h4 class="mb-0 fw-bold">Painel de Gestão</h4>
-      <small class="text-muted">Visão geral do sistema de equivalências alimentares</small>
+      <small class="text-muted">Visão geral da área administrativa</small>
     </div>
   </div>
 
@@ -16,9 +16,8 @@
       <p class="mt-3 text-muted">Carregando estatísticas...</p>
     </div>
   } @else {
-    <!-- Stats -->
     <div class="row g-3 mb-4">
-      <div class="col-sm-6 col-lg-4">
+      <div class="col-sm-6 col-lg-6">
         <div class="stat-card">
           <div class="stat-icon stat-icon--green">
             <i class="fas fa-apple-alt"></i>
@@ -29,19 +28,8 @@
           </div>
         </div>
       </div>
-      <div class="col-sm-6 col-lg-4">
-        <div class="stat-card">
-          <div class="stat-icon stat-icon--blue">
-            <i class="fas fa-exchange-alt"></i>
-          </div>
-          <div class="stat-body">
-            <p class="stat-label">Equivalências Cadastradas</p>
-            <h3 class="stat-value">{{ totalEquivalencias }}</h3>
-          </div>
-        </div>
-      </div>
       @if (isAdmin) {
-        <div class="col-sm-6 col-lg-4">
+        <div class="col-sm-6 col-lg-6">
           <div class="stat-card">
             <div class="stat-icon stat-icon--amber">
               <i class="fas fa-users"></i>
@@ -55,7 +43,6 @@
       }
     </div>
 
-    <!-- Quick Access -->
     <h5 class="fw-bold mb-3">Acesso Rápido</h5>
     <div class="row g-3">
       <div class="col-sm-6 col-lg-4">
@@ -66,18 +53,6 @@
           <div>
             <h6 class="mb-1">Gerenciar Alimentos</h6>
             <small class="text-muted">Cadastrar, editar e remover alimentos</small>
-          </div>
-          <i class="fas fa-chevron-right ms-auto text-muted"></i>
-        </a>
-      </div>
-      <div class="col-sm-6 col-lg-4">
-        <a routerLink="/admin/equivalencias" class="quick-card text-decoration-none">
-          <div class="quick-icon quick-icon--blue">
-            <i class="fas fa-exchange-alt"></i>
-          </div>
-          <div>
-            <h6 class="mb-1">Gerenciar Equivalências</h6>
-            <small class="text-muted">Definir substituições entre alimentos</small>
           </div>
           <i class="fas fa-chevron-right ms-auto text-muted"></i>
         </a>
@@ -102,7 +77,7 @@
             <i class="fas fa-home"></i>
           </div>
           <div>
-            <h6 class="mb-1">Buscar Equivalências</h6>
+            <h6 class="mb-1">Buscar Substituições</h6>
             <small class="text-muted">Ir para a tela de consulta</small>
           </div>
           <i class="fas fa-chevron-right ms-auto text-muted"></i>

@@ -61,11 +61,6 @@ export const routes: Routes = [
         path: 'alimentos',
         loadComponent: () => import('./pages/admin/alimentos/alimentos-list').then(m => m.AlimentosListComponent),
         canActivate: [gestorGuard]
-      },
-      {
-        path: 'equivalencias',
-        loadComponent: () => import('./pages/admin/equivalencias/equivalencias-list').then(m => m.EquivalenciasListComponent),
-        canActivate: [gestorGuard]
       }
     ]
   }
