@@ -1,3 +1,9 @@
+## [1.8.0](https://github.com/CesarAVB/equivalencia-alimentar-monorepo/compare/v1.7.0...v1.8.0) (2026-04-15)
+
+### Features
+
+* atualizar o rodapé com novos estilos e links sociais ([feea6d1](https://github.com/CesarAVB/equivalencia-alimentar-monorepo/commit/feea6d159457ba2e5c656420479402932a8822a3))
+
 ## [1.7.0](https://github.com/CesarAVB/equivalencia-alimentar-monorepo/compare/v1.6.0...v1.7.0) (2026-04-15)
 
 ### Features
