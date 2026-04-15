@@ -1,3 +1,9 @@
+## [1.7.0](https://github.com/CesarAVB/equivalencia-alimentar-monorepo/compare/v1.6.0...v1.7.0) (2026-04-15)
+
+### Features
+
+* adicionar paginação integrada e novos estilos para a lista de alimentos ([a130ca2](https://github.com/CesarAVB/equivalencia-alimentar-monorepo/commit/a130ca2d305c4873d8ae0d61dfbfb8a023e5120f))
+
 ## [1.6.0](https://github.com/CesarAVB/equivalencia-alimentar-monorepo/compare/v1.5.0...v1.6.0) (2026-04-15)
 
 ### Features
