@@ -1,3 +1,9 @@
+## [1.11.0](https://github.com/CesarAVB/equivalencia-alimentar-monorepo/compare/v1.10.0...v1.11.0) (2026-04-15)
+
+### Features
+
+* melhorar tratamento de erros de validação no backend e exibição no frontend ([8189ebd](https://github.com/CesarAVB/equivalencia-alimentar-monorepo/commit/8189ebd77b565b47725c6320e4d5dd24a83ce6e4))
+
 ## [1.10.0](https://github.com/CesarAVB/equivalencia-alimentar-monorepo/compare/v1.9.0...v1.10.0) (2026-04-15)
 
 ### Features
