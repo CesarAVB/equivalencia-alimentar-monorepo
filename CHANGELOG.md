@@ -1,3 +1,9 @@
+## [1.1.0](https://github.com/CesarAVB/equivalencia-alimentar-monorepo/compare/v1.0.0...v1.1.0) (2026-04-15)
+
+### Features
+
+* atualizar planos e lógica de assinatura, ajustando nomes e tipos de plano ([ea32654](https://github.com/CesarAVB/equivalencia-alimentar-monorepo/commit/ea32654af2122c34be7b1fc5dadd56893f5aa943))
+
 ## 1.0.0 (2026-04-12)
 
 ### Features
