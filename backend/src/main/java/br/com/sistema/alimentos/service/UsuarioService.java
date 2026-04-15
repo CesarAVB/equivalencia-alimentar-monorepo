@@ -64,6 +64,7 @@ public class UsuarioService implements UserDetailsService {
                 .cpf(request.cpf())
                 .senha(passwordEncoder.encode(request.senha()))
                 .tipo(request.tipo())
+                .planoExpiraEm(request.planoExpiraEm())
                 .build();
 
         return toResponse(usuarioRepository.save(usuario));
@@ -79,6 +80,7 @@ public class UsuarioService implements UserDetailsService {
         usuario.setEmail(request.email());
         usuario.setCpf(request.cpf());
         usuario.setTipo(request.tipo());
+        usuario.setPlanoExpiraEm(request.planoExpiraEm());
         return toResponse(usuarioRepository.save(usuario));
     }
 

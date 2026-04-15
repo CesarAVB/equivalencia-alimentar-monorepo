@@ -94,7 +94,7 @@ class UsuarioServiceTest {
     @Test
     @DisplayName("Deve lançar exceção ao criar usuário com e-mail duplicado")
     void deveLancarExcecaoAoCriarUsuarioComEmailDuplicado() {
-        CriarUsuarioRequest request = new CriarUsuarioRequest("João", "joao@email.com", "123.456.789-00", "12345678", UsuarioTipo.ADMIN);
+        CriarUsuarioRequest request = new CriarUsuarioRequest("João", "joao@email.com", "123.456.789-00", "12345678", UsuarioTipo.ADMIN, null);
         when(usuarioRepository.existsByEmail("joao@email.com")).thenReturn(true);
 
         assertThrows(IllegalArgumentException.class, () -> usuarioService.criar(request));
@@ -104,7 +104,7 @@ class UsuarioServiceTest {
     @Test
     @DisplayName("Deve criar usuário com senha criptografada")
     void deveCriarUsuarioComSenhaCriptografada() {
-        CriarUsuarioRequest request = new CriarUsuarioRequest("João", "joao@email.com", "123.456.789-00", "12345678", UsuarioTipo.ADMIN);
+        CriarUsuarioRequest request = new CriarUsuarioRequest("João", "joao@email.com", "123.456.789-00", "12345678", UsuarioTipo.ADMIN, null);
         Usuario salvo = usuario(UUID.randomUUID(), "joao@email.com", "senha-criptografada");
 
         when(usuarioRepository.existsByEmail("joao@email.com")).thenReturn(false);
@@ -121,7 +121,7 @@ class UsuarioServiceTest {
     void deveAtualizarUsuarioQuandoIdExistir() {
         UUID id = UUID.randomUUID();
         Usuario existente = usuario(id, "old@email.com", "12345678");
-        AtualizarUsuarioRequest request = new AtualizarUsuarioRequest("Novo", "novo@email.com", "123.456.789-00", UsuarioTipo.NUTRICIONISTA);
+        AtualizarUsuarioRequest request = new AtualizarUsuarioRequest("Novo", "novo@email.com", "123.456.789-00", UsuarioTipo.NUTRICIONISTA, null);
 
         when(usuarioRepository.findById(id)).thenReturn(Optional.of(existente));
         when(usuarioRepository.save(eq(existente))).thenReturn(existente);

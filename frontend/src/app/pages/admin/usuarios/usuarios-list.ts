@@ -36,12 +36,16 @@ export class UsuariosListComponent implements OnInit {
   }
 
   inicializarForm(usuario?: Usuario): void {
+    const expiracao = usuario?.planoExpiraEm
+      ? usuario.planoExpiraEm.toString().slice(0, 16)
+      : '';
     this.form = this.fb.group({
       nome: [usuario?.nome ?? '', [Validators.required, Validators.minLength(2)]],
       email: [usuario?.email ?? '', [Validators.required, Validators.email]],
       cpf: [usuario?.cpf ?? ''],
       senha: ['', usuario ? [] : [Validators.required, Validators.minLength(6)]],
-      tipo: [usuario?.tipo ?? 'PACIENTE', Validators.required]
+      tipo: [usuario?.tipo ?? 'PACIENTE', Validators.required],
+      planoExpiraEm: [expiracao]
     });
   }
 
@@ -114,6 +118,11 @@ export class UsuariosListComponent implements OnInit {
     const dados = { ...this.form.value };
     if (!dados.senha) delete dados.senha;
     if (!dados.cpf) delete dados.cpf;
+    if (dados.planoExpiraEm) {
+      dados.planoExpiraEm = dados.planoExpiraEm + ':00';
+    } else {
+      dados.planoExpiraEm = null;
+    }
 
     const operacao = this.modoEdicao && this.usuarioEmEdicao?.id
       ? this.usuarioService.atualizar(this.usuarioEmEdicao.id, dados)

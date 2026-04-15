@@ -6,6 +6,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
+import java.time.LocalDateTime;
+
 public record AtualizarUsuarioRequest(
         @NotBlank(message = "O nome é obrigatório")
         String nome,
@@ -18,5 +20,7 @@ public record AtualizarUsuarioRequest(
         String cpf,
 
         @NotNull(message = "O tipo de usuário é obrigatório")
-        UsuarioTipo tipo
+        UsuarioTipo tipo,
+
+        LocalDateTime planoExpiraEm
 ) {}

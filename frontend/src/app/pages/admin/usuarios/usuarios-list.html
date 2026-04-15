@@ -44,13 +44,14 @@
             <th class="text-center">Tipo</th>
             <th class="text-center">Status</th>
             <th class="text-center">Plano</th>
+            <th class="text-center">Expira em</th>
             <th class="text-center">Ações</th>
           </tr>
         </thead>
         <tbody>
           @if (usuariosFiltrados.length === 0) {
             <tr>
-              <td colspan="7" class="text-center py-4 text-muted">
+              <td colspan="8" class="text-center py-4 text-muted">
                 <i class="fas fa-inbox fa-2x mb-2 d-block"></i>
                 Nenhum usuário encontrado.
               </td>
@@ -82,6 +83,13 @@
               </td>
               <td class="text-center">
                 <span class="badge bg-secondary-subtle text-secondary">{{ usuario.plano ?? 'trial' }}</span>
+              </td>
+              <td class="text-center text-muted small">
+                @if (usuario.planoExpiraEm) {
+                  {{ usuario.planoExpiraEm | date:'dd/MM/yyyy HH:mm' }}
+                } @else {
+                  —
+                }
               </td>
               <td class="text-center">
                 <div class="d-flex gap-1 justify-content-center">
@@ -170,6 +178,11 @@
               @if (form.get('senha')?.errors?.['minlength'] && form.get('senha')?.touched) {
                 <div class="invalid-feedback">Mínimo 6 caracteres.</div>
               }
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-semibold">Expiração do acesso</label>
+              <input type="datetime-local" class="form-control" formControlName="planoExpiraEm">
+              <div class="form-text">Se não informada, o acesso expira em 30 dias.</div>
             </div>
           </div>
         </form>

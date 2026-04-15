@@ -66,7 +66,7 @@ public class Usuario implements UserDetails {
     @PrePersist
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();
-        if (this.plano == PlanoTipo.TRIAL) {
+        if (this.plano == PlanoTipo.TRIAL && this.planoExpiraEm == null) {
             this.planoExpiraEm = this.createdAt.plusDays(30);
         }
     }

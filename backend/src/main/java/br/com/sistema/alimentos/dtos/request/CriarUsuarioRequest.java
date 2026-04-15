@@ -7,6 +7,8 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
+import java.time.LocalDateTime;
+
 public record CriarUsuarioRequest(
         @NotBlank(message = "O nome é obrigatório")
         String nome,
@@ -23,5 +25,7 @@ public record CriarUsuarioRequest(
         String senha,
 
         @NotNull(message = "O tipo de usuário é obrigatório")
-        UsuarioTipo tipo
+        UsuarioTipo tipo,
+
+        LocalDateTime planoExpiraEm
 ) {}
