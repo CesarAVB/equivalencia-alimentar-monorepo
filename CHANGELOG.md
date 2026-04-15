@@ -1,3 +1,9 @@
+## [1.13.0](https://github.com/CesarAVB/equivalencia-alimentar-monorepo/compare/v1.12.0...v1.13.0) (2026-04-15)
+
+### Features
+
+* remover funcionalidade de exportação CSV e atualizar descrição das porções na página inicial ([bc0c985](https://github.com/CesarAVB/equivalencia-alimentar-monorepo/commit/bc0c98587873c2711598cfd2dff32616dc079352))
+
 ## [1.12.0](https://github.com/CesarAVB/equivalencia-alimentar-monorepo/compare/v1.11.0...v1.12.0) (2026-04-15)
 
 ### Features
