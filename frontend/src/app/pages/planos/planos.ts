@@ -40,7 +40,7 @@ export class PlanosComponent implements OnInit {
         'Acesso completo aos recursos por 30 dias',
         'Sem necessidade de cartao',
         'Consulta de equivalencias e catalogo completo',
-        'Exportacao CSV'
+        'Porcoes ajustadas automaticamente'
       ],
       destaque: false,
       cor: 'plano-demo'
