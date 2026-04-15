@@ -1,3 +1,9 @@
+## [1.3.0](https://github.com/CesarAVB/equivalencia-alimentar-monorepo/compare/v1.2.0...v1.3.0) (2026-04-15)
+
+### Features
+
+* adicionar campo de expiração de plano em requisições de usuário e na interface ([3105dd5](https://github.com/CesarAVB/equivalencia-alimentar-monorepo/commit/3105dd5a237b75427a186ab09a3c92d81ddcc7cc))
+
 ## [1.2.0](https://github.com/CesarAVB/equivalencia-alimentar-monorepo/compare/v1.1.0...v1.2.0) (2026-04-15)
 
 ### Features
