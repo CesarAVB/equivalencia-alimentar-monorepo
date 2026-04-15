@@ -1,3 +1,10 @@
+## [1.4.0](https://github.com/CesarAVB/equivalencia-alimentar-monorepo/compare/v1.3.0...v1.4.0) (2026-04-15)
+
+### Features
+
+* adicionar cálculo de energia no componente de resultados ([5b6c49e](https://github.com/CesarAVB/equivalencia-alimentar-monorepo/commit/5b6c49e4e26aeb3e01e9b492e1ec361d0a84e634))
+* adicionar lógica de abertura e fechamento do menu na interface do cabeçalho ([8fda3d0](https://github.com/CesarAVB/equivalencia-alimentar-monorepo/commit/8fda3d0ee1980fa28717ed42932ae615854c5352))
+
 ## [1.3.0](https://github.com/CesarAVB/equivalencia-alimentar-monorepo/compare/v1.2.0...v1.3.0) (2026-04-15)
 
 ### Features
