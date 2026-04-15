@@ -1,3 +1,9 @@
+## [1.14.0](https://github.com/CesarAVB/equivalencia-alimentar-monorepo/compare/v1.13.0...v1.14.0) (2026-04-15)
+
+### Features
+
+* remover funcionalidade de equivalências e atualizar descrição no painel de gestão ([35dfb75](https://github.com/CesarAVB/equivalencia-alimentar-monorepo/commit/35dfb75dea1fd99b5f2dc8f8a565531d15e9938c))
+
 ## [1.13.0](https://github.com/CesarAVB/equivalencia-alimentar-monorepo/compare/v1.12.0...v1.13.0) (2026-04-15)
 
 ### Features
