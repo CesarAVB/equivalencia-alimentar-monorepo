@@ -231,24 +231,25 @@
     background: #ffffff;
     border: 1px solid rgba(26, 95, 122, 0.08);
     border-radius: 8px;
-    padding: 4px 10px 4px 4px;
+    padding: 3px 10px 3px 3px;
+    min-height: 48px;
     max-width: 270px;
   }
 
   .user-avatar {
-    width: 30px;
-    height: 30px;
-    border-radius: 6px;
+    width: 40px;
+    height: 40px;
+    border-radius: 5px;
     background: linear-gradient(135deg, var(--clr-primary) 0%, var(--clr-primary-light) 100%);
     color: #ffffff;
-    font-size: 11px;
+    font-size: 13px;
     font-weight: 700;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    letter-spacing: 0.5px;
-    box-shadow: 0 0 0 2px rgba(42, 122, 154, 0.12);
+    letter-spacing: 0.2px;
+    box-shadow: 0 0 0 1px rgba(42, 122, 154, 0.12);
   }
 
   .user-meta {
@@ -265,6 +266,7 @@
     justify-content: space-between;
     gap: 8px;
     min-width: 0;
+    min-height: 24px;
   }
 
   .user-nome {
@@ -283,13 +285,13 @@
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    min-height: 22px;
-    padding: 3px 8px;
+    height: 24px;
+    padding: 0 10px;
     border-radius: 4px;
     border: 1px solid transparent;
-    font-size: 10px;
+    font-size: 9px;
     font-weight: 800;
-    letter-spacing: 0.35px;
+    letter-spacing: 0.2px;
     text-transform: lowercase;
 
     &--trial {
@@ -506,8 +508,9 @@
     }
 
     .user-plan-tag {
-      padding: 3px 7px;
-      font-size: 9px;
+      height: 22px;
+      padding: 0 8px;
+      font-size: 8px;
     }
 
     .account-secondary {

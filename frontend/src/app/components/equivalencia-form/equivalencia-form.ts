@@ -89,7 +89,7 @@ export class EquivalenciaFormComponent implements OnInit {
       }
     });
 
-    // não buscar automaticamente ao selecionar alimento; usuário deve clicar em "Calcular"
+    // não buscar automaticamente ao selecionar alimento; usuário deve clicar em "Buscar"
     this.form.get('alimentoId')?.valueChanges.subscribe(() => {
       this.resultado.emit(null);
       this.mensagem = '';
@@ -164,7 +164,7 @@ export class EquivalenciaFormComponent implements OnInit {
   calcular(): void {
     const id = Number(this.form.get('alimentoId')?.value);
     if (!id && id !== 0) {
-      this.exibirMensagem('Selecione um alimento antes de calcular.', 'error');
+      this.exibirMensagem('Selecione um alimento antes de buscar.', 'error');
       return;
     }
     // se o id for temporário (negativo), tentar resolver para um alimento real
