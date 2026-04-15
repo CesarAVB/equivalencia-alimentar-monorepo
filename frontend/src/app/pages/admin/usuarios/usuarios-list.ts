@@ -1,6 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  ValidationErrors,
+  ValidatorFn,
+  Validators
+} from '@angular/forms';
 import { UsuarioService } from '../../../services/usuario.service';
 import { NotificationService } from '../../../services/notification.service';
 import { Usuario, UsuarioTipo } from '../../../models/usuario';
@@ -23,6 +32,11 @@ export class UsuariosListComponent implements OnInit {
   form!: FormGroup;
 
   readonly tipos: UsuarioTipo[] = ['ADMIN', 'NUTRICIONISTA', 'PACIENTE'];
+  private readonly cpfValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+    const digits = this.onlyDigits(control.value);
+    if (!digits) return null;
+    return this.isValidCpf(digits) ? null : { cpfInvalido: true };
+  };
 
   constructor(
     private usuarioService: UsuarioService,
@@ -42,7 +56,7 @@ export class UsuariosListComponent implements OnInit {
     this.form = this.fb.group({
       nome: [usuario?.nome ?? '', [Validators.required, Validators.minLength(2)]],
       email: [usuario?.email ?? '', [Validators.required, Validators.email]],
-      cpf: [usuario?.cpf ?? ''],
+      cpf: [this.formatCpf(usuario?.cpf), [this.cpfValidator]],
       senha: ['', usuario ? [] : [Validators.required, Validators.minLength(6)]],
       tipo: [usuario?.tipo ?? 'PACIENTE', Validators.required],
       planoExpiraEm: [expiracao]
@@ -117,6 +131,7 @@ export class UsuariosListComponent implements OnInit {
     this.salvando = true;
     const dados = { ...this.form.value };
     if (!dados.senha) delete dados.senha;
+    dados.cpf = this.onlyDigits(dados.cpf);
     if (!dados.cpf) delete dados.cpf;
     if (dados.planoExpiraEm) {
       dados.planoExpiraEm = dados.planoExpiraEm + ':00';
@@ -187,5 +202,52 @@ export class UsuariosListComponent implements OnInit {
       case 'NUTRICIONISTA': return 'badge-nutri';
       default: return 'badge-paciente';
     }
+  }
+
+  onCpfInput(): void {
+    const control = this.form.get('cpf');
+    if (!control) return;
+    const formatted = this.formatCpf(control.value);
+    if (control.value !== formatted) {
+      control.setValue(formatted, { emitEvent: false });
+    }
+  }
+
+  cpfExibicao(cpf?: string): string {
+    return this.formatCpf(cpf) || '—';
+  }
+
+  private formatCpf(value?: string | null): string {
+    const digits = this.onlyDigits(value).slice(0, 11);
+    if (!digits) return '';
+    if (digits.length <= 3) return digits;
+    if (digits.length <= 6) return `${digits.slice(0, 3)}.${digits.slice(3)}`;
+    if (digits.length <= 9) return `${digits.slice(0, 3)}.${digits.slice(3, 6)}.${digits.slice(6)}`;
+    return `${digits.slice(0, 3)}.${digits.slice(3, 6)}.${digits.slice(6, 9)}-${digits.slice(9)}`;
+  }
+
+  private onlyDigits(value?: string | null): string {
+    return (value ?? '').replace(/\D/g, '');
+  }
+
+  private isValidCpf(cpf: string): boolean {
+    if (cpf.length !== 11 || /^(\d)\1{10}$/.test(cpf)) {
+      return false;
+    }
+
+    const digits = cpf.split('').map(Number);
+    const digit1 = this.calculateCpfDigit(digits, 10);
+    const digit2 = this.calculateCpfDigit(digits, 11);
+
+    return digit1 === digits[9] && digit2 === digits[10];
+  }
+
+  private calculateCpfDigit(digits: number[], factor: number): number {
+    const total = digits
+      .slice(0, factor - 1)
+      .reduce((sum, digit, index) => sum + digit * (factor - index), 0);
+
+    const remainder = (total * 10) % 11;
+    return remainder === 10 ? 0 : remainder;
   }
 }

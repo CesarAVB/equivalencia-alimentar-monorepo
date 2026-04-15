@@ -23,6 +23,7 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.never;
@@ -94,7 +95,7 @@ class UsuarioServiceTest {
     @Test
     @DisplayName("Deve lançar exceção ao criar usuário com e-mail duplicado")
     void deveLancarExcecaoAoCriarUsuarioComEmailDuplicado() {
-        CriarUsuarioRequest request = new CriarUsuarioRequest("João", "joao@email.com", "123.456.789-00", "12345678", UsuarioTipo.ADMIN, null);
+        CriarUsuarioRequest request = new CriarUsuarioRequest("João", "joao@email.com", "12345678900", "12345678", UsuarioTipo.ADMIN, null);
         when(usuarioRepository.existsByEmail("joao@email.com")).thenReturn(true);
 
         assertThrows(IllegalArgumentException.class, () -> usuarioService.criar(request));
@@ -114,6 +115,7 @@ class UsuarioServiceTest {
         UsuarioResponse response = usuarioService.criar(request);
 
         assertEquals("joao@email.com", response.email());
+        verify(usuarioRepository).save(argThat(usuario -> "12345678900".equals(usuario.getCpf())));
     }
 
     @Test
@@ -130,6 +132,7 @@ class UsuarioServiceTest {
 
         assertEquals("novo@email.com", response.email());
         assertEquals(UsuarioTipo.NUTRICIONISTA, response.tipo());
+        assertEquals("12345678900", existente.getCpf());
     }
 
     @Test
@@ -172,7 +175,7 @@ class UsuarioServiceTest {
                 .nome("Nome")
                 .email(email)
                 .senha(senha)
-                .cpf("123.456.789-00")
+                .cpf("12345678900")
                 .tipo(UsuarioTipo.ADMIN)
                 .ativo(true)
                 .plano(PlanoTipo.PADRAO)

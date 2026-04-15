@@ -17,7 +17,7 @@ public record CriarUsuarioRequest(
         @Email(message = "Informe um e-mail válido")
         String email,
 
-        @Pattern(regexp = "\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}", message = "CPF deve estar no formato 000.000.000-00")
+        @Pattern(regexp = "\\d{11}", message = "CPF deve conter 11 dígitos")
         String cpf,
 
         @NotBlank(message = "A senha é obrigatória")

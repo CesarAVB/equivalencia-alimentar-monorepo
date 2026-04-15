@@ -61,7 +61,7 @@ public class UsuarioService implements UserDetailsService {
         Usuario usuario = Usuario.builder()
                 .nome(request.nome())
                 .email(request.email())
-                .cpf(request.cpf())
+                .cpf(normalizarCpf(request.cpf()))
                 .senha(passwordEncoder.encode(request.senha()))
                 .tipo(request.tipo())
                 .planoExpiraEm(request.planoExpiraEm())
@@ -78,7 +78,7 @@ public class UsuarioService implements UserDetailsService {
         Usuario usuario = encontrarPorId(id);
         usuario.setNome(request.nome());
         usuario.setEmail(request.email());
-        usuario.setCpf(request.cpf());
+        usuario.setCpf(normalizarCpf(request.cpf()));
         usuario.setTipo(request.tipo());
         usuario.setPlanoExpiraEm(request.planoExpiraEm());
         return toResponse(usuarioRepository.save(usuario));
@@ -108,6 +108,15 @@ public class UsuarioService implements UserDetailsService {
     private Usuario encontrarPorId(UUID id) {
         return usuarioRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado: " + id));
+    }
+
+    private String normalizarCpf(String cpf) {
+        if (cpf == null || cpf.isBlank()) {
+            return null;
+        }
+
+        String apenasDigitos = cpf.replaceAll("\\D", "");
+        return apenasDigitos.isBlank() ? null : apenasDigitos;
     }
 
     private UsuarioResponse toResponse(Usuario u) {
