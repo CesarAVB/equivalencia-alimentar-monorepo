@@ -56,16 +56,6 @@
           <div class="header-right">
             <div class="account-panel">
               <div class="account-primary">
-                <a
-                  routerLink="/planos"
-                  [class]="'plano-badge plano-badge--' + (usuario.plano ?? 'trial' | lowercase)"
-                  title="Ver planos"
-                  (click)="closeMenu()"
-                >
-                  <i class="fas fa-bolt"></i>
-                  {{ usuario.plano ?? 'trial' }}
-                </a>
-
                 @if (usuario.plano === 'trial') {
                   @if (!isTrialExpired(usuario)) {
                     <a class="trial-badge" routerLink="/planos" title="Seu trial expira em breve" (click)="closeMenu()">
@@ -85,7 +75,12 @@
                     {{ iniciais(usuario.nome) }}
                   </span>
                   <div class="user-meta">
-                    <span class="user-nome">{{ usuario.nome }}</span>
+                    <div class="user-meta-top">
+                      <span class="user-nome">{{ usuario.nome }}</span>
+                      <span class="user-plan-tag" [class]="'user-plan-tag user-plan-tag--' + (usuario.plano ?? 'trial' | lowercase)">
+                        {{ usuario.plano ?? 'trial' }}
+                      </span>
+                    </div>
                     <span class="user-email">{{ usuario.tipo }}</span>
                   </div>
                 </div>

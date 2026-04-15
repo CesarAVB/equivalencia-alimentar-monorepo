@@ -231,6 +231,15 @@
     flex-direction: column;
     gap: 2px;
     min-width: 0;
+    flex: 1;
+  }
+
+  .user-meta-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    min-width: 0;
   }
 
   .user-nome {
@@ -242,6 +251,33 @@
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 180px;
+  }
+
+  .user-plan-tag {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    min-height: 22px;
+    padding: 3px 8px;
+    border-radius: 999px;
+    border: 1px solid transparent;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.35px;
+    text-transform: lowercase;
+
+    &--trial {
+      background: #f3f4f6;
+      color: #6b7280;
+      border-color: #e5e7eb;
+    }
+
+    &--padrao {
+      background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+      color: #1d4ed8;
+      border-color: #93c5fd;
+    }
   }
 
   .user-email {
@@ -418,6 +454,15 @@
 
     .user-nome {
       max-width: 150px;
+    }
+
+    .user-meta-top {
+      gap: 6px;
+    }
+
+    .user-plan-tag {
+      padding: 3px 7px;
+      font-size: 9px;
     }
 
     .account-secondary {
