@@ -1,3 +1,9 @@
+## [1.12.0](https://github.com/CesarAVB/equivalencia-alimentar-monorepo/compare/v1.11.0...v1.12.0) (2026-04-15)
+
+### Features
+
+* atualizar validação de CPF para aceitar apenas dígitos e formatar exibição no frontend ([d72ad81](https://github.com/CesarAVB/equivalencia-alimentar-monorepo/commit/d72ad81fb271b570b78d050c63c797b997729ded))
+
 ## [1.11.0](https://github.com/CesarAVB/equivalencia-alimentar-monorepo/compare/v1.10.0...v1.11.0) (2026-04-15)
 
 ### Features
