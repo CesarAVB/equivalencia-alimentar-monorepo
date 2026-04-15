@@ -1,3 +1,9 @@
+## [1.6.0](https://github.com/CesarAVB/equivalencia-alimentar-monorepo/compare/v1.5.0...v1.6.0) (2026-04-15)
+
+### Features
+
+* adicionar novos estilos e estrutura para exibição de informações do usuário no cabeçalho ([7ce3068](https://github.com/CesarAVB/equivalencia-alimentar-monorepo/commit/7ce30684ce990be1b7d07504c2e23071fc3f65d5))
+
 ## [1.5.0](https://github.com/CesarAVB/equivalencia-alimentar-monorepo/compare/v1.4.0...v1.5.0) (2026-04-15)
 
 ### Features
