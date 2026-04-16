@@ -1,3 +1,9 @@
+## [1.16.0](https://github.com/CesarAVB/equivalencia-alimentar-monorepo/compare/v1.15.0...v1.16.0) (2026-04-16)
+
+### Features
+
+* implementar modais de confirmação para remoção de alimentos, equivalências e usuários ([48a0555](https://github.com/CesarAVB/equivalencia-alimentar-monorepo/commit/48a05554e5d676b8fe0512b44639ed8cb210c759))
+
 ## [1.15.0](https://github.com/CesarAVB/equivalencia-alimentar-monorepo/compare/v1.14.0...v1.15.0) (2026-04-16)
 
 ### Features
