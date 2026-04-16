@@ -1,3 +1,9 @@
+## [1.15.0](https://github.com/CesarAVB/equivalencia-alimentar-monorepo/compare/v1.14.0...v1.15.0) (2026-04-16)
+
+### Features
+
+* refatorar interceptores de erro e JWT para melhor gerenciamento de sessão ([c569917](https://github.com/CesarAVB/equivalencia-alimentar-monorepo/commit/c56991789350d46fed64af3f072070ebb9c69353))
+
 ## [1.14.0](https://github.com/CesarAVB/equivalencia-alimentar-monorepo/compare/v1.13.0...v1.14.0) (2026-04-15)
 
 ### Features
