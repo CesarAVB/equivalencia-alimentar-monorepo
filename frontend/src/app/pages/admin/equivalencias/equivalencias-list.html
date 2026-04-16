@@ -161,3 +161,31 @@
     </div>
   </div>
 </div>
+
+<!-- Modal Confirmação Remoção Equivalência -->
+<div class="modal fade" id="modalConfirmacaoRemocaoEquivalencia" tabindex="-1" aria-labelledby="modalConfirmacaoRemocaoEquivalenciaLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalConfirmacaoRemocaoEquivalenciaLabel">
+          <i class="fas fa-triangle-exclamation text-danger me-2"></i>Confirmar remoção
+        </h5>
+        <button type="button" class="btn-close" (click)="fecharModalConfirmacaoRemocao()" aria-label="Fechar"></button>
+      </div>
+      <div class="modal-body">
+        <p class="mb-0">
+          Remover equivalência <strong>{{ descricaoEquivalenciaParaRemocao }}</strong>?
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="fecharModalConfirmacaoRemocao()">Cancelar</button>
+        <button type="button" class="btn btn-danger" (click)="confirmarRemocao()" [disabled]="removendo">
+          @if (removendo) {
+            <span class="spinner-border spinner-border-sm me-1"></span>
+          }
+          Remover
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

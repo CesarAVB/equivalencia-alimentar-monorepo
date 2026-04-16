@@ -17,7 +17,6 @@ export class LoginComponent {
   showPassword = false;
   isLoading = false;
   submitted = false;
-  errorMessage = '';
 
   constructor(
     private fb: FormBuilder,
@@ -36,7 +35,6 @@ export class LoginComponent {
 
   onSubmit(): void {
     this.submitted = true;
-    this.errorMessage = '';
 
     if (this.loginForm.invalid) {
       return;
@@ -52,11 +50,11 @@ export class LoginComponent {
       error: (err) => {
         this.isLoading = false;
         if (err.status === 401 || err.status === 403) {
-          this.errorMessage = 'E-mail ou senha inválidos.';
+          this.notifier.error('E-mail ou senha inválidos.');
         } else if (err.status === 0) {
-          this.errorMessage = 'Não foi possível conectar ao servidor. Verifique sua conexão.';
+          this.notifier.error('Não foi possível conectar ao servidor. Verifique sua conexão.');
         } else {
-          this.errorMessage = 'Ocorreu um erro ao fazer login. Tente novamente.';
+          this.notifier.error('Ocorreu um erro ao fazer login. Tente novamente.');
         }
       }
     });

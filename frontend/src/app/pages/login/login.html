@@ -68,14 +68,6 @@
           <p class="form-subtitle">Informe suas credenciais para acessar o sistema</p>
         </div>
 
-        <!-- Erro da API -->
-        @if (errorMessage) {
-          <div class="alert alert-danger d-flex align-items-center gap-2" role="alert">
-            <i class="fas fa-exclamation-circle"></i>
-            <span>{{ errorMessage }}</span>
-          </div>
-        }
-
         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate>
 
           <!-- Campo Email -->

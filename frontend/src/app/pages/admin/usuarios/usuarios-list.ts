@@ -28,8 +28,10 @@ export class UsuariosListComponent implements OnInit {
 
   filtroTexto = '';
   usuarioEmEdicao: Usuario | null = null;
+  usuarioParaRemover: Usuario | null = null;
   modoEdicao = false;
   form!: FormGroup;
+  removendo = false;
 
   readonly tipos: UsuarioTipo[] = ['ADMIN', 'NUTRICIONISTA', 'PACIENTE'];
   private readonly cpfValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
@@ -185,15 +187,46 @@ export class UsuariosListComponent implements OnInit {
 
   remover(usuario: Usuario): void {
     if (!usuario.id) return;
-    if (!confirm(`Remover o usuário "${usuario.nome}"? Esta ação não pode ser desfeita.`)) return;
+    this.usuarioParaRemover = usuario;
+    this.abrirModalConfirmacaoRemocao();
+  }
 
+  confirmarRemocao(): void {
+    const usuario = this.usuarioParaRemover;
+    if (!usuario?.id) return;
+
+    this.removendo = true;
     this.usuarioService.remover(usuario.id).subscribe({
       next: () => {
+        this.removendo = false;
+        this.fecharModalConfirmacaoRemocao();
         this.notifier.success('Usuário removido');
         this.carregar();
       },
-      error: () => this.notifier.error('Erro ao remover usuário')
+      error: () => {
+        this.removendo = false;
+        this.notifier.error('Erro ao remover usuário');
+      }
     });
+  }
+
+  private abrirModalConfirmacaoRemocao(): void {
+    const modal = document.getElementById('modalConfirmacaoRemocaoUsuario');
+    if (modal) {
+      modal.classList.add('show');
+      modal.style.display = 'block';
+      document.body.classList.add('modal-open');
+    }
+  }
+
+  fecharModalConfirmacaoRemocao(): void {
+    const modal = document.getElementById('modalConfirmacaoRemocaoUsuario');
+    if (modal) {
+      modal.classList.remove('show');
+      modal.style.display = 'none';
+      document.body.classList.remove('modal-open');
+    }
+    this.usuarioParaRemover = null;
   }
 
   tipoBadgeClass(tipo: UsuarioTipo): string {

@@ -25,8 +25,10 @@ export class EquivalenciasListComponent implements OnInit {
 
   todosAlimentos: Alimento[] = [];
   equivalenciaEmEdicao: Equivalencia | null = null;
+  equivalenciaParaRemover: Equivalencia | null = null;
   modoEdicao = false;
   form!: FormGroup;
+  removendo = false;
 
   readonly Math = Math;
 
@@ -157,16 +159,52 @@ export class EquivalenciasListComponent implements OnInit {
 
   remover(eq: Equivalencia): void {
     if (!eq.id) return;
-    const origem = this.nomeAlimento(eq.alimentoOrigemId);
-    const destino = this.nomeAlimento(eq.alimentoDestinoId);
-    if (!confirm(`Remover equivalência "${origem}" → "${destino}"?`)) return;
+    this.equivalenciaParaRemover = eq;
+    this.abrirModalConfirmacaoRemocao();
+  }
 
+  confirmarRemocao(): void {
+    const eq = this.equivalenciaParaRemover;
+    if (!eq?.id) return;
+
+    this.removendo = true;
     this.equivalenciaService.remover(eq.id).subscribe({
       next: () => {
+        this.removendo = false;
+        this.fecharModalConfirmacaoRemocao();
         this.notifier.success('Equivalência removida');
         this.carregar();
       },
-      error: () => this.notifier.error('Erro ao remover equivalência')
+      error: () => {
+        this.removendo = false;
+        this.notifier.error('Erro ao remover equivalência');
+      }
     });
+  }
+
+  get descricaoEquivalenciaParaRemocao(): string {
+    if (!this.equivalenciaParaRemover) return '';
+    const origem = this.nomeAlimento(this.equivalenciaParaRemover.alimentoOrigemId);
+    const destino = this.nomeAlimento(this.equivalenciaParaRemover.alimentoDestinoId);
+    return `"${origem}" → "${destino}"`;
+  }
+
+  private abrirModalConfirmacaoRemocao(): void {
+    const modal = document.getElementById('modalConfirmacaoRemocaoEquivalencia');
+    if (modal) {
+      modal.classList.add('show');
+      modal.style.display = 'block';
+      document.body.classList.add('modal-open');
+    }
+  }
+
+  fecharModalConfirmacaoRemocao(): void {
+    const modal = document.getElementById('modalConfirmacaoRemocaoEquivalencia');
+    if (modal) {
+      modal.classList.remove('show');
+      modal.style.display = 'none';
+      document.body.classList.remove('modal-open');
+    }
+    this.equivalenciaParaRemover = null;
   }
 }

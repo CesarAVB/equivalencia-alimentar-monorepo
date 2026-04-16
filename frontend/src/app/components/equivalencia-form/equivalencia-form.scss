@@ -65,47 +65,6 @@
     padding: 30px 28px;
   }
 
-  // --- Feedback Alert ---
-  .feedback-alert {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 14px 18px;
-    border-radius: 12px;
-    margin-bottom: 26px;
-    font-size: 14px;
-
-    i { font-size: 17px; flex-shrink: 0; }
-    span { flex: 1; }
-
-    .feedback-close {
-      background: none;
-      border: none;
-      cursor: pointer;
-      opacity: 0.55;
-      padding: 0;
-      color: inherit;
-      transition: opacity 0.2s;
-      &:hover { opacity: 1; }
-    }
-
-    &.feedback-success {
-      background: #ecfdf5;
-      color: #065f46;
-      border: 1px solid #a7f3d0;
-    }
-    &.feedback-error {
-      background: #fef2f2;
-      color: #991b1b;
-      border: 1px solid #fecaca;
-    }
-    &.feedback-info {
-      background: #eff6ff;
-      color: #1e40af;
-      border: 1px solid #bfdbfe;
-    }
-  }
-
   // --- Field ---
   .field-group { margin-bottom: 24px; }
 

@@ -25,8 +25,10 @@ export class AlimentosListComponent implements OnInit {
   filtroTexto = '';
   filtroGrupo = '';
   alimentoEmEdicao: Alimento | null = null;
+  alimentoParaRemover: Alimento | null = null;
   modoEdicao = false;
   form!: FormGroup;
+  removendo = false;
 
   readonly grupos = GRUPOS_ALIMENTARES;
 
@@ -193,15 +195,46 @@ export class AlimentosListComponent implements OnInit {
   }
 
   remover(alimento: Alimento): void {
-    if (!confirm(`Remover "${alimento.descricao}"? Esta acao nao pode ser desfeita.`)) return;
+    this.alimentoParaRemover = alimento;
+    this.abrirModalConfirmacaoRemocao();
+  }
 
+  confirmarRemocao(): void {
+    const alimento = this.alimentoParaRemover;
+    if (!alimento?.id) return;
+
+    this.removendo = true;
     this.alimentoService.remover(alimento.id).subscribe({
       next: () => {
+        this.removendo = false;
+        this.fecharModalConfirmacaoRemocao();
         this.notifier.success('Alimento removido');
         this.carregar();
       },
-      error: () => this.notifier.error('Erro ao remover alimento')
+      error: () => {
+        this.removendo = false;
+        this.notifier.error('Erro ao remover alimento');
+      }
     });
+  }
+
+  private abrirModalConfirmacaoRemocao(): void {
+    const modal = document.getElementById('modalConfirmacaoRemocaoAlimento');
+    if (modal) {
+      modal.classList.add('show');
+      modal.style.display = 'block';
+      document.body.classList.add('modal-open');
+    }
+  }
+
+  fecharModalConfirmacaoRemocao(): void {
+    const modal = document.getElementById('modalConfirmacaoRemocaoAlimento');
+    if (modal) {
+      modal.classList.remove('show');
+      modal.style.display = 'none';
+      document.body.classList.remove('modal-open');
+    }
+    this.alimentoParaRemover = null;
   }
 
   readonly Math = Math;

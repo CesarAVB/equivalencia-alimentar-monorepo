@@ -2,6 +2,7 @@ import { Component, Output, EventEmitter, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlimentoService } from '../../services/alimento.service';
+import { NotificationService } from '../../services/notification.service';
 import { Alimento } from '../../models/alimento';
 import { of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -27,8 +28,6 @@ export class EquivalenciaFormComponent implements OnInit {
   form!: FormGroup;
   carregando = false;
   carregandoAlimentos = false;
-  mensagem = '';
-  tipoMensagem: 'success' | 'error' | 'info' = 'info';
 
   grupos: string[] = [];
   catalogFoods: Record<string, Array<{ text: string; quantity: number }>> = {};
@@ -38,7 +37,8 @@ export class EquivalenciaFormComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private alimentoService: AlimentoService
+    private alimentoService: AlimentoService,
+    private notifier: NotificationService
   ) {}
 
   ngOnInit(): void {
@@ -92,7 +92,6 @@ export class EquivalenciaFormComponent implements OnInit {
     // não buscar automaticamente ao selecionar alimento; usuário deve clicar em "Buscar"
     this.form.get('alimentoId')?.valueChanges.subscribe(() => {
       this.resultado.emit(null);
-      this.mensagem = '';
     });
   }
 
@@ -113,7 +112,6 @@ export class EquivalenciaFormComponent implements OnInit {
 
   buscarEquivalencias(alimentoId: number, quantidadeGramas?: number): void {
     this.carregando = true;
-    this.mensagem = '';
 
     this.alimentoService.obterEquivalencias(alimentoId, quantidadeGramas).subscribe({
       next: (resp: any) => {
@@ -186,13 +184,18 @@ export class EquivalenciaFormComponent implements OnInit {
   limpar(): void {
     this.form.reset();
     this.alimentos = [];
-    this.mensagem = '';
     this.resultado.emit(null);
   }
 
   exibirMensagem(msg: string, tipo: 'success' | 'error' | 'info'): void {
-    this.mensagem = msg;
-    this.tipoMensagem = tipo;
-    setTimeout(() => { this.mensagem = ''; }, 4000);
+    if (tipo === 'success') {
+      this.notifier.success(msg);
+      return;
+    }
+    if (tipo === 'error') {
+      this.notifier.error(msg);
+      return;
+    }
+    this.notifier.info(msg);
   }
 }

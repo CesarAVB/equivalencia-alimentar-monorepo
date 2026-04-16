@@ -14,20 +14,6 @@
   <!-- Card Body -->
   <div class="card-body-inner">
 
-    <!-- Feedback -->
-    @if (mensagem) {
-      <div class="feedback-alert"
-        [class.feedback-success]="tipoMensagem === 'success'"
-        [class.feedback-error]="tipoMensagem === 'error'"
-        [class.feedback-info]="tipoMensagem === 'info'">
-        <i [ngClass]="tipoMensagem === 'success' ? 'fas fa-check-circle' : tipoMensagem === 'error' ? 'fas fa-exclamation-circle' : 'fas fa-info-circle'"></i>
-        <span>{{ mensagem }}</span>
-        <button class="feedback-close" (click)="mensagem = ''" aria-label="Fechar">
-          <i class="fas fa-times"></i>
-        </button>
-      </div>
-    }
-
     <!-- Loading inicial -->
     @if (carregandoAlimentos) {
       <div class="text-center py-3">
