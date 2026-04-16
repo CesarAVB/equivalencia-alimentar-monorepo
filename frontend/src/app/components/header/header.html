@@ -23,6 +23,7 @@
 
       @if (usuario$ | async; as usuario) {
         <div class="header-shell" id="header-shell" [class.is-open]="menuOpen">
+          <div class="header-bar">
           <nav class="header-nav">
             <a routerLink="/home" routerLinkActive="active" class="nav-link-item" (click)="closeMenu()">
               <i class="fas fa-home"></i>
@@ -96,6 +97,7 @@
                 </button>
               </div>
             </div>
+          </div>
           </div>
         </div>
       }
