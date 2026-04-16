@@ -9,11 +9,11 @@
   position: sticky;
   top: 0;
   z-index: 1000;
-  padding: 10px 0;
+  padding: 0;
 
   .header-inner {
     display: grid;
-    gap: 14px;
+    gap: 0;
     min-height: 64px;
   }
 
@@ -29,6 +29,7 @@
     align-items: center;
     justify-content: space-between;
     gap: 16px;
+    padding: 0 24px;
   }
 
   .brand {
@@ -44,7 +45,7 @@
     }
 
     .brand-logo {
-      height: 46px;
+      height: 56px;
       width: auto;
       display: block;
       object-fit: contain;
@@ -79,8 +80,7 @@
 
   .header-shell {
     display: block;
-    padding-top: 10px;
-    border-top: 1px solid rgba(26, 95, 122, 0.14);
+    padding-top: 0;
   }
 
   .header-bar {
@@ -474,7 +474,7 @@
 
   @media (max-width: 680px) {
     .brand .brand-logo {
-      height: 40px;
+      height: 48px;
     }
 
     .header-nav {
@@ -495,10 +495,14 @@
   }
 
   @media (max-width: 520px) {
-    padding: 8px 0;
+    padding: 0;
 
     .header-inner {
       gap: 10px;
+    }
+
+    .header-topbar {
+      padding: 0 12px;
     }
 
     .menu-toggle {
