@@ -1,3 +1,9 @@
+## [1.17.0](https://github.com/CesarAVB/equivalencia-alimentar-monorepo/compare/v1.16.0...v1.17.0) (2026-05-02)
+
+### Features
+
+* normalizar CPF na senha antes de criptografar ao criar usuário ([7e073c7](https://github.com/CesarAVB/equivalencia-alimentar-monorepo/commit/7e073c78d7a91cca04fc46482e1130e247308384))
+
 ## [1.16.0](https://github.com/CesarAVB/equivalencia-alimentar-monorepo/compare/v1.15.0...v1.16.0) (2026-04-16)
 
 ### Features
