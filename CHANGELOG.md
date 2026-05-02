@@ -1,3 +1,9 @@
+## [1.18.0](https://github.com/CesarAVB/equivalencia-alimentar-monorepo/compare/v1.17.0...v1.18.0) (2026-05-02)
+
+### Features
+
+* adicionar campo de senha e normalizar CPF na atualização do usuário ([55faa8c](https://github.com/CesarAVB/equivalencia-alimentar-monorepo/commit/55faa8ced3a84989939be900f71e7b08aae08312))
+
 ## [1.17.0](https://github.com/CesarAVB/equivalencia-alimentar-monorepo/compare/v1.16.0...v1.17.0) (2026-05-02)
 
 ### Features
