@@ -119,6 +119,21 @@ class UsuarioServiceTest {
     }
 
     @Test
+    @DisplayName("Deve normalizar CPF na senha padrao antes de criptografar")
+    void deveNormalizarCpfNaSenhaPadraoAntesDeCriptografar() {
+        CriarUsuarioRequest request = new CriarUsuarioRequest("Joao", "joao@email.com", "123.456.789-00", "123.456.789-00", UsuarioTipo.ADMIN, null);
+        Usuario salvo = usuario(UUID.randomUUID(), "joao@email.com", "senha-criptografada");
+
+        when(usuarioRepository.existsByEmail("joao@email.com")).thenReturn(false);
+        when(passwordEncoder.encode("12345678900")).thenReturn("senha-criptografada");
+        when(usuarioRepository.save(any(Usuario.class))).thenReturn(salvo);
+
+        usuarioService.criar(request);
+
+        verify(passwordEncoder).encode("12345678900");
+    }
+
+    @Test
     @DisplayName("Deve atualizar usuário quando id existir")
     void deveAtualizarUsuarioQuandoIdExistir() {
         UUID id = UUID.randomUUID();

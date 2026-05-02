@@ -58,11 +58,12 @@ public class UsuarioService implements UserDetailsService {
             throw new IllegalArgumentException("Já existe um usuário com o e-mail: " + request.email());
         }
 
+        String cpfNormalizado = normalizarCpf(request.cpf());
         Usuario usuario = Usuario.builder()
                 .nome(request.nome())
                 .email(request.email())
-                .cpf(normalizarCpf(request.cpf()))
-                .senha(passwordEncoder.encode(request.senha()))
+                .cpf(cpfNormalizado)
+                .senha(passwordEncoder.encode(normalizarSenhaSeCpf(request.senha(), request.cpf(), cpfNormalizado)))
                 .tipo(request.tipo())
                 .planoExpiraEm(request.planoExpiraEm())
                 .build();
@@ -117,6 +118,18 @@ public class UsuarioService implements UserDetailsService {
 
         String apenasDigitos = cpf.replaceAll("\\D", "");
         return apenasDigitos.isBlank() ? null : apenasDigitos;
+    }
+
+    private String normalizarSenhaSeCpf(String senha, String cpfInformado, String cpfNormalizado) {
+        if (senha == null || senha.isBlank() || cpfNormalizado == null) {
+            return senha;
+        }
+
+        if (senha.equals(cpfInformado) || senha.equals(cpfNormalizado)) {
+            return cpfNormalizado;
+        }
+
+        return senha;
     }
 
     private UsuarioResponse toResponse(Usuario u) {
