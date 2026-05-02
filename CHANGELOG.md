@@ -1,3 +1,9 @@
+## [1.19.0](https://github.com/CesarAVB/equivalencia-alimentar-monorepo/compare/v1.18.0...v1.19.0) (2026-05-02)
+
+### Features
+
+* adicionar logging na atualização de usuário e normalização de senha ([2201f89](https://github.com/CesarAVB/equivalencia-alimentar-monorepo/commit/2201f8937b296a4aa662047c7a0dd3022d3b8032))
+
 ## [1.18.0](https://github.com/CesarAVB/equivalencia-alimentar-monorepo/compare/v1.17.0...v1.18.0) (2026-05-02)
 
 ### Features
