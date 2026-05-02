@@ -7,6 +7,7 @@ import br.com.sistema.alimentos.entity.Usuario;
 import br.com.sistema.alimentos.repository.UsuarioRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -18,6 +19,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class UsuarioService implements UserDetailsService {
 
@@ -78,16 +80,21 @@ public class UsuarioService implements UserDetailsService {
     public UsuarioResponse atualizar(UUID id, AtualizarUsuarioRequest request) {
         Usuario usuario = encontrarPorId(id);
         String cpfNormalizado = normalizarCpf(request.cpf());
+        boolean senhaInformada = request.senha() != null && !request.senha().isBlank();
 
         usuario.setNome(request.nome());
         usuario.setEmail(request.email());
         usuario.setCpf(cpfNormalizado);
-        if (request.senha() != null && !request.senha().isBlank()) {
+        if (senhaInformada) {
             String senhaNormalizada = normalizarSenhaSeCpf(request.senha(), request.cpf(), cpfNormalizado);
             usuario.setSenha(passwordEncoder.encode(senhaNormalizada));
+            log.info("Senha atualizada para usuario id={}", id);
+        } else {
+            log.info("Atualizacao de usuario sem troca de senha id={}", id);
         }
         usuario.setTipo(request.tipo());
         usuario.setPlanoExpiraEm(request.planoExpiraEm());
+        log.info("Atualizando usuario id={} email={} senhaInformada={}", id, request.email(), senhaInformada);
         return toResponse(usuarioRepository.save(usuario));
     }
 
