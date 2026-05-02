@@ -138,7 +138,7 @@ class UsuarioServiceTest {
     void deveAtualizarUsuarioQuandoIdExistir() {
         UUID id = UUID.randomUUID();
         Usuario existente = usuario(id, "old@email.com", "12345678");
-        AtualizarUsuarioRequest request = new AtualizarUsuarioRequest("Novo", "novo@email.com", "123.456.789-00", UsuarioTipo.NUTRICIONISTA, null);
+        AtualizarUsuarioRequest request = new AtualizarUsuarioRequest("Novo", "novo@email.com", "123.456.789-00", null, UsuarioTipo.NUTRICIONISTA, null);
 
         when(usuarioRepository.findById(id)).thenReturn(Optional.of(existente));
         when(usuarioRepository.save(eq(existente))).thenReturn(existente);
@@ -148,6 +148,30 @@ class UsuarioServiceTest {
         assertEquals("novo@email.com", response.email());
         assertEquals(UsuarioTipo.NUTRICIONISTA, response.tipo());
         assertEquals("12345678900", existente.getCpf());
+    }
+
+    @Test
+    @DisplayName("Deve atualizar senha quando informada")
+    void deveAtualizarSenhaQuandoInformada() {
+        UUID id = UUID.randomUUID();
+        Usuario existente = usuario(id, "old@email.com", "senha-antiga");
+        AtualizarUsuarioRequest request = new AtualizarUsuarioRequest(
+                "Novo",
+                "novo@email.com",
+                "12345678900",
+                "123456",
+                UsuarioTipo.NUTRICIONISTA,
+                null
+        );
+
+        when(usuarioRepository.findById(id)).thenReturn(Optional.of(existente));
+        when(passwordEncoder.encode("123456")).thenReturn("senha-nova-hash");
+        when(usuarioRepository.save(eq(existente))).thenReturn(existente);
+
+        usuarioService.atualizar(id, request);
+
+        assertEquals("senha-nova-hash", existente.getPassword());
+        verify(passwordEncoder).encode("123456");
     }
 
     @Test

@@ -77,9 +77,15 @@ public class UsuarioService implements UserDetailsService {
     @Transactional
     public UsuarioResponse atualizar(UUID id, AtualizarUsuarioRequest request) {
         Usuario usuario = encontrarPorId(id);
+        String cpfNormalizado = normalizarCpf(request.cpf());
+
         usuario.setNome(request.nome());
         usuario.setEmail(request.email());
-        usuario.setCpf(normalizarCpf(request.cpf()));
+        usuario.setCpf(cpfNormalizado);
+        if (request.senha() != null && !request.senha().isBlank()) {
+            String senhaNormalizada = normalizarSenhaSeCpf(request.senha(), request.cpf(), cpfNormalizado);
+            usuario.setSenha(passwordEncoder.encode(senhaNormalizada));
+        }
         usuario.setTipo(request.tipo());
         usuario.setPlanoExpiraEm(request.planoExpiraEm());
         return toResponse(usuarioRepository.save(usuario));

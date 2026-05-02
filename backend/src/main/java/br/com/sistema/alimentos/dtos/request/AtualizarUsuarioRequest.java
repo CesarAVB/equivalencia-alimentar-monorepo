@@ -5,21 +5,25 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 import java.time.LocalDateTime;
 
 public record AtualizarUsuarioRequest(
-        @NotBlank(message = "O nome é obrigatório")
+        @NotBlank(message = "O nome e obrigatorio")
         String nome,
 
-        @NotBlank(message = "O e-mail é obrigatório")
-        @Email(message = "Informe um e-mail válido")
+        @NotBlank(message = "O e-mail e obrigatorio")
+        @Email(message = "Informe um e-mail valido")
         String email,
 
-        @Pattern(regexp = "\\d{11}", message = "CPF deve conter 11 dígitos")
+        @Pattern(regexp = "\\d{11}", message = "CPF deve conter 11 digitos")
         String cpf,
 
-        @NotNull(message = "O tipo de usuário é obrigatório")
+        @Size(min = 6, message = "A senha deve ter no minimo 6 caracteres")
+        String senha,
+
+        @NotNull(message = "O tipo de usuario e obrigatorio")
         UsuarioTipo tipo,
 
         LocalDateTime planoExpiraEm
